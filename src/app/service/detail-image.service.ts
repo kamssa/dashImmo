@@ -30,7 +30,7 @@ export class DetailImageService {
       observe: 'events'
     });
   }
-  public uploadDetaillashMaison(formData, id) {
+  public uploadDetailFlashMaison(formData, id) {
     console.log('dans le service', formData);
     return this.http.post<any>(`${environment.apiUrl}/api/uploadDetailFlashMaison/?id=${id}`, formData,   {
       reportProgress: true,

@@ -14,6 +14,7 @@ import {ListeDemandeComponent} from './demande/liste-demande/liste-demande.compo
 import {ListeDemandeLuComponent} from './demande/liste-demande-lu/liste-demande-lu.component';
 import {ListClientComponent} from './client/list-client/list-client.component';
 import {ListFlashMaisonComponent} from './flashMaison/list-flash-maison/list-flash-maison.component';
+import {ListImageAccueilComponent} from './accueil/list-image-accueil/list-image-accueil.component';
 
 const routes: Routes = [
 
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: 'demandeArchiver',   component: ListeDemandeLuComponent },
       { path: 'listClient',   component: ListClientComponent },
       { path: 'listFlasMaison',   component: ListFlashMaisonComponent },
+      { path: 'imageAccueil',   component: ListImageAccueilComponent }
 
     ]
   }

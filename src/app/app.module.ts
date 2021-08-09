@@ -2,19 +2,17 @@ import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MaterialModule} from "./material/material.module";
-import {JWT_OPTIONS, JwtHelperService, JwtInterceptor} from "@auth0/angular-jwt";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
-import {ErrorInterceptor} from "./helper/error.interceptor";
-import {APP_DATE_FORMATS, AppDateAdapter} from "./helper/format-datepicker";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {RxStompService} from "@stomp/ng2-stompjs";
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MaterialModule} from './material/material.module';
+import {JWT_OPTIONS, JwtHelperService, JwtInterceptor} from '@auth0/angular-jwt';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {ErrorInterceptor} from './helper/error.interceptor';
+import {APP_DATE_FORMATS, AppDateAdapter} from './helper/format-datepicker';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {RxStompService} from '@stomp/ng2-stompjs';
 import {ConnexionComponent} from './connexion/connexion.component';
 import {AddTerrainsComponent} from './terrains/add-terrains/add-terrains.component';
 import {ListeTerrainsComponent} from './terrains/liste-terrains/liste-terrains.component';
@@ -38,13 +36,8 @@ import {AddVilleComponent} from './villes/add-ville/add-ville.component';
 import {ListeVilleComponent} from './villes/liste-ville/liste-ville.component';
 import {UpdateVilleComponent} from './villes/update-ville/update-ville.component';
 import {VillesComponent} from './villes/villes/villes.component';
-import {AddDocComponent} from './documents/add-doc/add-doc.component';
-import {ListeDocComponent} from './documents/liste-doc/liste-doc.component';
-import {ModalDocComponent} from './documents/modal-doc/modal-doc.component';
-import {UpdateDocComponent} from './documents/update-doc/update-doc.component';
 import {AddFlashMaisonComponent} from './flashMaison/add-flash-maison/add-flash-maison.component';
 import {ListFlashMaisonComponent} from './flashMaison/list-flash-maison/list-flash-maison.component';
-import {DetailFlashMaison} from './models/DetailFlashMaison';
 import {UpdateFlashMaisonComponent} from './flashMaison/update-flash-maison/update-flash-maison.component';
 import {VoirFlashMaisonComponent} from './flashMaison/voir-flash-maison/voir-flash-maison.component';
 import {DetailFlashMaisonComponent} from './flashMaison/detail-flash-maison/detail-flash-maison.component';
@@ -64,8 +57,6 @@ import {AddDepComponent} from './departement/add-dep/add-dep.component';
 import {ListDepComponent} from './departement/list-dep/list-dep.component';
 import {AddEmplComponent} from './employe/add-empl/add-empl.component';
 import {ListEmplComponent} from './employe/list-empl/list-empl.component';
-import {DashboardComponent} from './modules/dashboard/dashboard.component';
-import {PostsComponent} from './modules/posts/posts.component';
 import {ProduitAGeolocaliseComponent} from './produit-ageolocalise/produit-ageolocalise.component';
 import {ProduitVenduComponent} from './produit-vendu/produit-vendu.component';
 import {ListProgrammeComponent} from './programme/list-programme/list-programme.component';
@@ -75,12 +66,10 @@ import {ListProduitAGeoComponent} from './produitAGeolocaliser/list-produit-ageo
 import {ListProduitVenduComponent} from './produitVendu/list-produit-vendu/list-produit-vendu.component';
 import {UpdateCoordComponent} from './produitVendu/update-coord/update-coord.component';
 import {VenteFlashComponent} from './vente/vente-flash/vente-flash.component';
-import {AlerteComponent} from './shared/alerte/alerte.component';
-
 import {SharedModule} from './shared/shared.module';
-import {MatCardModule} from '@angular/material/card';
 import {UpdateProduitVenduComponent} from './produitVendu/update-produit-vendu/update-produit-vendu.component';
 import { AddImageAccueilComponent } from './accueil/add-image-accueil/add-image-accueil.component';
+import { ListImageAccueilComponent } from './accueil/list-image-accueil/list-image-accueil.component';
 
 
 
@@ -141,6 +130,7 @@ import { AddImageAccueilComponent } from './accueil/add-image-accueil/add-image-
     ListProgrammeComponent,
     VenteFlashComponent,
     AddImageAccueilComponent,
+    ListImageAccueilComponent,
   ],
   imports: [
     BrowserModule,
@@ -153,7 +143,6 @@ import { AddImageAccueilComponent } from './accueil/add-image-accueil/add-image-
     FlexLayoutModule,
     DefaultModule,
     SharedModule
-
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

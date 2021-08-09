@@ -3,16 +3,13 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Maison} from '../../models/Maison';
 import {Document} from '../../models/Document';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
-import {MaisonService} from '../../service/maison.service';
 import {DocumentService} from '../../service/document.service';
-import {DetailMaisonService} from '../../service/detail-maison.service';
 import {DetailImageService} from '../../service/detail-image.service';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {catchError, map} from 'rxjs/operators';
 import {HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import {of} from 'rxjs';
-import {DetailMaison} from '../../models/DetailMaison';
 import {FlashMaisonService} from '../../service/flash-maison.service';
 import {FlashMaison} from '../../models/FlashMaison';
 import {DetailFlashMaison} from '../../models/DetailFlashMaison';
@@ -91,7 +88,7 @@ export class DetailFlashMaisonComponent implements OnInit {
     const formData = new FormData();
     formData.append('multipartFile', file.data);
     file.inProgress = true;
-    this.detailImageService.uploadDetaillashMaison(formData, id).pipe(
+    this.detailImageService.uploadDetailFlashMaison(formData, id).pipe(
       map(event => {
         switch (event.type) {
           case HttpEventType.UploadProgress:
