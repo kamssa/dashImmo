@@ -1,0 +1,45 @@
+<div class="main-div">
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title> Modifier l'image du terrain</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="tFormModifImage" (ngSubmit)="onSubmit()" novalidate *ngIf="tFormModifImage">
+      <div class="well">
+
+        <div class="achat">
+          <mat-card class="example-card" >
+            <img mat-card-image [src]="terrain?.path" alt="Photo of a Shiba Inu">
+          </mat-card>
+          <br>
+          <mat-form-field>
+            <input  matInput  type="text" placeholder="Lien" formControlName="path">
+          </mat-form-field>
+          <br>
+          <div *ngIf="currentFile" class="progress">
+            <div
+              class="progress-bar progress-bar-info progress-bar-striped"
+              role="progressbar"
+              attr.aria-valuenow="{{ progress }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              [ngStyle]="{ width: progress + '%' }">
+              {{ progress }}%
+            </div>
+          </div>
+          <label class="btn btn-default">
+            <input type="file" (change)="selectFile($event)" accept="image/jpg, image/png, image/gif, image/jpeg"/>
+          </label>
+          <button type="submit" class="btn btn-success"  [disabled]="!selectedFiles">
+            Upload
+          </button>
+
+        </div>
+
+      </div>
+    </form>
+  </mat-card>
+
+</div>
+
+

@@ -1,0 +1,41 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Ajouter un achat</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="achatForm" (ngSubmit)="createAchat(achatForm.value)">
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width" appearance="fill" formGroupName="detailTerrain">
+                    <mat-label >Selection un terrain</mat-label>
+                    <mat-select formControlName="libelle" (selectionChange)="greetProduit($event)">
+                      <mat-option *ngFor="let t of detailTerrains" [value]="t.id">
+                        {{t?.libelle}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="example-full-width" appearance="fill" formGroupName="personne">
+                    <mat-label >Selection une personne</mat-label>
+                    <mat-select formControlName="nomComplet" (selectionChange)="greetPersonne($event)">
+                      <mat-option *ngFor="let v of personnes" [value]="v.id">
+                        {{v.nomComplet}} - {{v.email}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Valider</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

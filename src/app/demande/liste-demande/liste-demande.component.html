@@ -1,0 +1,63 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose">
+            <h4 class="card-title">La liste des Demandes</h4>
+          </div>
+          <div class="row">
+
+            <div class="col-md-6">
+              <mat-form-field >
+                <input matInput (keyup)="applyFilter($event)"  placeholder="Recherche..." #input>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <!-- Position Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let demande"> {{demande.createdAt}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nomComplet">
+              <th mat-header-cell *matHeaderCellDef> Nom et Prénom </th>
+              <td mat-cell *matCellDef="let demande"> {{demande.nomComplet}} </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let demande"> {{demande.email}} </td>
+            </ng-container>
+            <ng-container matColumnDef="telephone">
+              <th mat-header-cell *matHeaderCellDef> Téléphone </th>
+              <td mat-cell *matCellDef="let demande"> {{demande.telephone}}</td>
+            </ng-container>
+            <ng-container matColumnDef="selection">
+              <th mat-header-cell *matHeaderCellDef> Selection </th>
+              <td mat-cell *matCellDef="let demande">
+                <button mat-icon-button color="warn" (click)="openDialog(demande.id)">
+                  <mat-icon class="mat-18">add_circle</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="marquer">
+              <th mat-header-cell *matHeaderCellDef> Marquer_lu </th>
+              <td mat-cell *matCellDef="let demande">
+                <button mat-icon-button color="warn" (click)="redirectToUpdate(demande.id)">
+                  <mat-icon class="mat-18">done</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 15,20, 25, 30, 35]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

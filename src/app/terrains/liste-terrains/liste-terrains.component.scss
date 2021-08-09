@@ -1,0 +1,19 @@
+table {width: 100%;}
+td
+{
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+matColumnDef{
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 8% !important;
+  width: 10% !important;
+}
+img{
+  width: 100px;
+  height: 50px;
+}
+

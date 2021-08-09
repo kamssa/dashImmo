@@ -1,0 +1,35 @@
+<div class="main-div">
+
+
+
+      <h1> Modifier la categorie</h1>
+
+    <form [formGroup]="updateDocForm" (ngSubmit)="onSubmit()" novalidate *ngIf="updateDocForm">
+      <div class="well">
+        <mat-card>
+          <div class="achat">
+            <mat-form-field>
+              <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <textarea #value matInput type="text" placeholder="Description" formControlName="description"></textarea>
+            </mat-form-field>
+            <hr>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <button mat-raised-button class="boutonEnr" type="submit"> Modifier
+              </button>
+              <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+              </button>
+            </div>
+          </div>
+
+        </mat-card>
+
+      </div>
+    </form>
+
+
+</div>
+
+

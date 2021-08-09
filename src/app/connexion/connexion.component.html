@@ -1,0 +1,41 @@
+<div class="main-wrapper" fxLayout="column" fxLayoutAlign="center center">
+  <div class="admin" fxLayoutAlign="center center">
+    <h1>Administration de Gstoreplus Immobilier</h1>
+  </div>
+  <div class="logo">
+    <img src="assets/img/logo.png">
+  </div>
+  <mat-card class="box">
+    <mat-card-header class="header">
+      <mat-card-title>CONNEXION</mat-card-title>
+    </mat-card-header>
+
+    <form class="example-form" [formGroup]="connexionForm"  (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input  matInput type="email" placeholder="Email"  formControlName="email">
+        </mat-form-field>
+        <div *ngIf="f.email.touched && f.email.invalid" class="text-danger">
+          <div *ngIf="f.email.errors.required" class="error">L' E-mail est obligatoire.</div>
+         <div *ngIf="f.email.errors?.email" class="error">L'E-mail n'est pas valide.</div>
+        </div>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Mot de passe" [type]="hide ? 'password' : 'text'" formControlName="password">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <div *ngIf="f.password.touched && f.password.invalid" class="text-danger">
+          <div *ngIf="f.password.errors.required" class="error">Le mot de passe est obligatoire.</div>
+          <div *ngIf="f.password.errors.pattern" class="error">Minimum de huit caractères, au moins une lettre majuscule, une lettre minuscule et un chiffre.</div>
+        </div>
+      </mat-card-content>
+      <button mat-stroked-button  class="btn-block">Se Connecter</button>
+      <div *ngIf="loading">
+
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" aria-hidden="true"></i>
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div *ngIf="error" class="alert alert-danger mt-4 mb-0">{{error}}</div>
+    </form>
+  </mat-card>
+
+</div>
