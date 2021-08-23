@@ -15,6 +15,7 @@ import {ListeDemandeLuComponent} from './demande/liste-demande-lu/liste-demande-
 import {ListClientComponent} from './client/list-client/list-client.component';
 import {ListFlashMaisonComponent} from './flashMaison/list-flash-maison/list-flash-maison.component';
 import {ListImageAccueilComponent} from './accueil/list-image-accueil/list-image-accueil.component';
+import {ListBlogComponent} from './blogs/list-blog/list-blog.component';
 
 const routes: Routes = [
 
@@ -23,11 +24,8 @@ const routes: Routes = [
     path: '',
     component: DefaultComponent,
     canActivate: [AuthGuardService],
-    children: [{
-      path: 'dashboard',
-      component: DashboardComponent
-    },
-      {path: 'listDoc', component: ListeDocComponent},
+    children: [
+      {path: 'dashboard', component: DashboardComponent},
       {path: 'listTerrains', component: ListeTerrainsComponent},
       {path: 'listVille', component: ListeVilleComponent},
       {path: 'listMaison', component: ListeMaisonComponent},
@@ -37,7 +35,9 @@ const routes: Routes = [
       { path: 'demandeArchiver',   component: ListeDemandeLuComponent },
       { path: 'listClient',   component: ListClientComponent },
       { path: 'listFlasMaison',   component: ListFlashMaisonComponent },
-      { path: 'imageAccueil',   component: ListImageAccueilComponent }
+      { path: 'imageAccueil',   component: ListImageAccueilComponent },
+      {path: 'listDoc', component: ListeDocComponent},
+      {path: 'listBlog', component: ListBlogComponent}
 
     ]
   }

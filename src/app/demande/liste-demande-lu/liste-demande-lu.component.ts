@@ -33,7 +33,6 @@ export class ListeDemandeLuComponent implements OnInit {
 
     this.demandeService.getAllDemande().subscribe(data => {
       this.demandes = data.body;
-      console.log('Voir les maisons', data.body);
       if (data.body){
         this.demandes.forEach(value => {
           let opp : Demande = value;
@@ -57,7 +56,6 @@ export class ListeDemandeLuComponent implements OnInit {
     this.dialogService.openConfirmDialog('Voulez-vous vraiment supprimer l\'élément ?')
       .afterClosed().subscribe(res => {
       if (res){
-        console.log(id);
         this.demandeService.supprimerDemande(id).subscribe(data => {
           console.log(data);
           this._snackBar.open('Succès de l\'opération!', '', {

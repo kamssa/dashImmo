@@ -10,9 +10,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {DetailTerrainService} from '../../service/detail-terrain.service';
 import {DetailTerrain} from '../../models/DetailTerrain';
-import {AddVilleComponent} from '../../villes/add-ville/add-ville.component';
 import {DemandeSelectComponent} from '../demande-select/demande-select.component';
-import {UpdateTerrainsComponent} from '../../terrains/update-terrains/update-terrains.component';
 
 @Component({
   selector: 'app-liste-demande',
@@ -32,14 +30,12 @@ export class ListeDemandeComponent implements OnInit {
   constructor(private demandeService: DemandeService,
               private detailTerrainService: DetailTerrainService,
               public dialog: MatDialog, private router: Router,
-              private _snackBar: MatSnackBar,
-              private  dialogService: DialogConfirmService) {
+              private _snackBar: MatSnackBar) {
   }
   ngOnInit(): void {
 
     this.demandeService.nbreDemandeNonLu().subscribe(data => {
       this.demandes = data.body;
-      console.log('Voir les maisons', data.body);
       if (data.body){
         this.demandes.forEach(value => {
           let opp : Demande = value;
@@ -97,10 +93,6 @@ export class ListeDemandeComponent implements OnInit {
        });
 
     });
-
-
-
-
   }
 
 openDialog(id: any): void {

@@ -9,16 +9,6 @@
           <div class="card-body">
             <form [formGroup]="achatForm" (ngSubmit)="createAchat(achatForm.value)">
               <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width" appearance="fill" formGroupName="detailTerrain">
-                    <mat-label >Selection un terrain</mat-label>
-                    <mat-select formControlName="libelle" (selectionChange)="greetProduit($event)">
-                      <mat-option *ngFor="let t of detailTerrains" [value]="t.id">
-                        {{t?.libelle}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
                 <div>
                   <mat-form-field class="example-full-width" appearance="fill" formGroupName="personne">
                     <mat-label >Selection une personne</mat-label>
@@ -30,6 +20,30 @@
                   </mat-form-field>
                 </div>
               </div>
+              <mat-form-field class="example-full-width" appearance="legacy" >
+                <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
+              </mat-form-field>
+              <br>
+              <input  type="checkbox" class="example-margin" [checked]="checked">
+              <br>
+              <input type="checkbox" [checked]="abonneGeo">
+              <br>
+              <mat-form-field class="example-full-width" >
+                <input  matInput  type="text" placeholder="Superficie" formControlName="superficie">
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width">
+                <input  matInput  type="text" placeholder="Prix" formControlName="prix">
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width" >
+                <input  matInput  type="text" placeholder="Ville" formControlName="nomVille">
+              </mat-form-field>
+              <br>
+              <mat-form-field class="example-full-width" appearance="fill" >
+                <input  matInput  type="text" placeholder="Type de document" formControlName="typeDocument">
+              </mat-form-field>
+              <br>
               <button mat-raised-button type="submit" class="btn btn-danger pull-right">Valider</button>
               <div class="clearfix"></div>
             </form>

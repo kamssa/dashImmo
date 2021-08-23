@@ -8,9 +8,9 @@
     <form [formGroup]="tForm" (ngSubmit)="onSubmit()" novalidate *ngIf="tForm">
       <div class="well">
         <mat-card>
-          <div class="achat" formGroupName="detailTerrain">
+          <div class="achat">
             <mat-form-field>
-              <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
+              <input  matInput  type="text" placeholder="Numero" formControlName="numero">
             </mat-form-field>
             <br>
             <mat-form-field>

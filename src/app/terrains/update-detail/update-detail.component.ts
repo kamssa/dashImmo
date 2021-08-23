@@ -62,9 +62,12 @@ export class UpdateDetailComponent implements OnInit {
            longitude: this.detailTerrain.longitude,
            numero: this.detailTerrain.numero,
            prix: this.detailTerrain.prix,
-           terrain: this.fb.group({
+           terrain: this.detailTerrain.terrain,
+          /*this.fb.group({
+             id: this.detailTerrain.terrain.id,
+             version: this.detailTerrain.terrain.version,
              libelle: this.detailTerrain?.terrain?.libelle
-           }),
+           }),*/
           document: this.fb.group({
             libelle: this.detailTerrain?.document?.libelle
           }),

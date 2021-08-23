@@ -4,15 +4,20 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Ajouter une image</h4>
+            <h4 class="card-title">Ajouter un blog</h4>
           </div>
           <div class="card-body">
-            <form [formGroup]="imageForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
               <mat-form-field class="example-full-width">
                 <input matInput type="text" placeholder="Libelle" formControlName="libelle"/>
               </mat-form-field>
               <br>
-
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Description" formControlName="description"/>
+              </mat-form-field>
+              <br>
+              <input  type="checkbox" [checked]="checks" (change)="chec($event)"/>
+              <br>
               <div *ngIf="currentFile" class="progress">
                 <div
                   class="progress-bar progress-bar-info progress-bar-striped"
@@ -25,7 +30,7 @@
                 </div>
               </div>
               <label class="btn btn-default">
-                <input type="file" (change)="selectFile($event)" accept="image/jpg, image/png, image/gif, image/jpeg"/>
+                <input type="file" (change)="selectFile($event)"/>
               </label>
               <button type="submit" class="btn btn-success"  [disabled]="!selectedFiles">
                 Upload

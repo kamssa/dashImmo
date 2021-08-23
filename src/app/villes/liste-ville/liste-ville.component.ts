@@ -10,7 +10,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {AddVilleComponent} from '../add-ville/add-ville.component';
 import {UpdateVilleComponent} from '../update-ville/update-ville.component';
-import {Demande} from '../../models/Demande';
 
 @Component({
   selector: 'app-liste-ville',
@@ -61,7 +60,7 @@ export class ListeVilleComponent implements OnInit {
       this.ville = result;
       this.receptacle.unshift(this.ville);
       this.dataSource = this.receptacle;
-     // this.dataSource = new MatTableDataSource<Categorie>(this.receptacle);
+      this.dataSource = new MatTableDataSource<Ville>(this.receptacle);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 

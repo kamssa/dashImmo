@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TerrainAcheter} from '../../models/TerrainAcheter';
-import {Produit} from '../../models/Produit';
 import {Personne} from '../../models/Personne';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TerrainAcheterService} from '../../service/terrain-acheter.service';
-import {ProduitService} from '../../service/produit.service';
 import {ClientService} from '../../service/client.service';
 import {PersonneService} from '../../service/personne.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -12,6 +10,8 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {DetailTerrainService} from '../../service/detail-terrain.service';
 import {DetailTerrain} from '../../models/DetailTerrain';
+import {TerrainVendu} from '../../models/TerrainVendu';
+import {TerrainVenduService} from '../../service/terrain-vendu.service';
 
 @Component({
   selector: 'app-add-produit',
@@ -21,15 +21,17 @@ import {DetailTerrain} from '../../models/DetailTerrain';
 export class AddProduitComponent implements OnInit {
   achatForm: FormGroup;
   terrainAcheter: TerrainAcheter;
-  terrainAchatId: number;
-  detailTerrains: DetailTerrain[];
+  terrainVendu: TerrainVendu;
   detailTerrain: DetailTerrain;
   personnes: Personne[];
   personne: Personne;
-
+  checked: false;
+  checkedGeo: false;
   private dialogConfig;
+  abonneGeo = false;
+
   constructor(public fb: FormBuilder,
-              private  terrainAcheterService: TerrainAcheterService,
+              private  terrainVenduService: TerrainVenduService,
               private detailTerrainService: DetailTerrainService,
               private clientService: ClientService,
               private personneService: PersonneService,
@@ -39,10 +41,8 @@ export class AddProduitComponent implements OnInit {
               private  router: Router) { }
 
   ngOnInit(): void {
-    this.detailTerrainService.getAllDetailTerrain().subscribe(data => {
-      this.detailTerrains = data.body;
-    });
-    this.personneService.getAllPersonne().subscribe(data => {
+
+    this.clientService.getAllClient().subscribe(data => {
       console.log(data.body);
       this.personnes = data.body;
     });
@@ -56,10 +56,22 @@ export class AddProduitComponent implements OnInit {
   }
   initForm() {
     this.achatForm = this.fb.group({
-
-      detailTerrain: this.fb.group({
-        libelle: ''
-      }),
+      libelle: [''],
+      paye: [''],
+      abonneGeo: [''],
+      unite: [''],
+      note: [''],
+      prixParMettreCarre: [''],
+      superficie: [''],
+      surfaceUtilise: [''],
+      description: [''],
+      latitude: [''],
+      longitude: [''],
+      numero: [''],
+      prix: [''],
+      path: [''],
+      nomVille: [''],
+      typeDocument: [''],
       personne: this.fb.group({
         nomComplet: '',
       })
@@ -75,14 +87,25 @@ export class AddProduitComponent implements OnInit {
       this.onSubmit(createAchatFormValue);
     }
   }
-
   onSubmit(createAchatFormValue): void{
-    let  terrainAcheter : TerrainAcheter = {
-      detailTerrain: this.detailTerrain,
+    let formValue = this.achatForm.value;
+    let  terrainVendu : TerrainVendu = {
+      id: null,
+      version: null,
+      libelle: formValue.libelle,
+      paye: formValue.paye,
+      abonneGeo: formValue.abonneGeo,
+      superficie: formValue.superficie,
+      description: formValue.description,
+      latitude: formValue.latitude,
+      longitude: formValue.longitude,
+      prix: formValue.prix,
+      nomVille: formValue.nomVille,
+      typeDocument: formValue.typeDocument,
       personne: this.personne
     };
-    console.log('terrain acheter', terrainAcheter);
-    this.terrainAcheterService.ajoutTerrainAcheter(terrainAcheter).subscribe(data => {
+    console.log('terrain acheter', terrainVendu);
+    this.terrainVenduService.ajoutTerrainVendur(terrainVendu).subscribe(data => {
         console.log('valeu de retour de terrain achete', data.body);
         this.terrainAcheter = data.body;
         this.dialogRef.close();
@@ -93,15 +116,6 @@ export class AddProduitComponent implements OnInit {
       }
     );
     this.router.navigate(['/terrainVendu']);
-  }
-
-  greetProduit(event) {
-    console.log(event.value);
-    this.detailTerrainService.getDetailTerrainById(event.value).subscribe(data => {
-      this.detailTerrain = data.body;
-      console.log('Valeur de retour de terrain', this.detailTerrain);
-
-    });
   }
 
   greetPersonne(event) {

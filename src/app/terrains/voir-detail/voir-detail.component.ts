@@ -27,7 +27,7 @@ import {UpdateDetailComponent} from '../update-detail/update-detail.component';
 })
 export class VoirDetailComponent implements OnInit {
 
-  displayedColumns: string[] = ['libelle', 'description', 'image1', 'image2', 'image3', 'update', 'supprimer'];
+  displayedColumns: string[] = ['libelle', 'description', 'superficie', 'document', 'update', 'supprimer'];
   dataSource: MatTableDataSource<Terrain>;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   detailTerrains: DetailTerrain[];

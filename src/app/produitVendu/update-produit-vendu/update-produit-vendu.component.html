@@ -6,9 +6,9 @@
     </mat-card-header>
     <form [formGroup]="tvForm" (ngSubmit)="onSubmit()" novalidate *ngIf="tvForm">
       <div class="well">
-        <div formGroupName="detailTerrain">
+        <div>
         <mat-form-field class="example-full-width" appearance="fill" >
-            <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
+            <input  matInput  type="text" placeholder="Numero" formControlName="numero">
           </mat-form-field>
           <br>
           <mat-form-field class="example-full-width" appearance="fill" >
@@ -17,6 +17,10 @@
           <br>
           <mat-form-field class="example-full-width" appearance="fill" >
             <input  matInput  type="text" placeholder="Longitude" formControlName="longitude">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="example-full-width" appearance="fill" >
+            <input  matInput  type="text" placeholder="Description" formControlName="description">
           </mat-form-field>
           <br>
         </div>

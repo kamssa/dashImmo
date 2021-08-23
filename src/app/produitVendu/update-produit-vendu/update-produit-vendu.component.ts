@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TerrainAcheter} from '../../models/TerrainAcheter';
 import {TerrainAcheterService} from '../../service/terrain-acheter.service';
+import {TerrainVenduService} from '../../service/terrain-vendu.service';
+import {TerrainVendu} from '../../models/TerrainVendu';
 
 @Component({
   selector: 'app-update-produit-vendu',
@@ -15,12 +17,14 @@ import {TerrainAcheterService} from '../../service/terrain-acheter.service';
 })
 export class UpdateProduitVenduComponent implements OnInit {
   terrainAcheter: TerrainAcheter;
+  terrainVendu: TerrainVendu;
   tvForm: FormGroup;
   terrainAcheters: TerrainAcheter[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor( private terrainAcheterService: TerrainAcheterService,
+               private terrainVenduService: TerrainVenduService,
                private villeService: VilleService,
                private  fb: FormBuilder, private  router: Router,
                @Inject(MAT_DIALOG_DATA) public data: Terrain,
@@ -28,46 +32,42 @@ export class UpdateProduitVenduComponent implements OnInit {
                public dialogRef: MatDialogRef<UpdateProduitVenduComponent>) { }
 
   ngOnInit(): void {
-    this.terrainAcheterService.getTerrainAcheterById(this.data['terrainAcheter'])
+    this.terrainVenduService.getTerrainVenduById(this.data['terrainVendu'])
       .subscribe(res => {
         console.log('terrain vendu', res.body);
-        this.terrainAcheter = res.body;
+        this.terrainVendu = res.body;
         this.tvForm = this.fb.group({
-          id: this.terrainAcheter.id,
-          version: this.terrainAcheter.version ,
-          detailTerrain: this.fb.group({
-            id : this.terrainAcheter.detailTerrain.id,
-            version: this.terrainAcheter.detailTerrain.version,
-            libelle:  this.terrainAcheter.detailTerrain.libelle,
-            paye:  this.terrainAcheter.detailTerrain.paye,
-            abonneGeo:  this.terrainAcheter.detailTerrain.abonneGeo,
-            unite:  this.terrainAcheter.detailTerrain.unite,
-            note:  this.terrainAcheter.detailTerrain.note,
-            prixParMettreCarre:  this.terrainAcheter.detailTerrain.prixParMettreCarre,
-            superficie:  this.terrainAcheter.detailTerrain.superficie,
-            surfaceUtilise:  this.terrainAcheter.detailTerrain.surfaceUtilise,
-            description:  this.terrainAcheter.detailTerrain.description,
-            latitude:  this.terrainAcheter.detailTerrain.latitude,
-            longitude:  this.terrainAcheter.detailTerrain.longitude,
-            numero:  this.terrainAcheter.detailTerrain.numero,
-            prix:  this.terrainAcheter.detailTerrain.prix,
-            terrain:  this.terrainAcheter.detailTerrain.terrain,
-            document:  this.terrainAcheter.detailTerrain.document
-
-          }),
-          personne: this.terrainAcheter.personne
+          id: this.terrainVendu.id,
+          version: this.terrainVendu.version ,
+          libelle: this.terrainVendu.libelle,
+          paye: this.terrainVendu.paye,
+          abonneGeo: this.terrainVendu.abonneGeo,
+          unite: this.terrainVendu.unite,
+          note: this.terrainVendu.note,
+          prixParMettreCarre: this.terrainVendu.prixParMettreCarre,
+          superficie: this.terrainVendu.superficie,
+          surfaceUtilise: this.terrainVendu.surfaceUtilise,
+          description: this.terrainVendu.description,
+          latitude: this.terrainVendu.latitude,
+          longitude: this.terrainVendu.longitude,
+          numero: this.terrainVendu.numero,
+          prix: this.terrainVendu.prix,
+          path: this.terrainVendu.path,
+          nomVille: this.terrainVendu.nomVille,
+          typeDocument: this.terrainVendu.typeDocument,
+          personne: this.terrainVendu.personne
         });
       });
   }
 
   onSubmit() {
     let formValue = this.tvForm.value;
-    this.terrainAcheter = this.tvForm.value;
-    console.log(this.terrainAcheter);
-    this.terrainAcheterService.modifTerrainAcheter(this.terrainAcheter).subscribe(data => {
+    this.terrainVendu = this.tvForm.value;
+    console.log(this.terrainVendu);
+    this.terrainVenduService.modifTerrainVendu(this.terrainVendu).subscribe(data => {
       if (data){
         console.log(data.body);
-        this.terrainAcheter = data.body;
+        this.terrainVendu = data.body;
         this.dialogRef.close(this.terrainAcheter);
         this.snackBar.open(' succès de la modification!', '', {
           duration: 3000,

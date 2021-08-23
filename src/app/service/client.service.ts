@@ -36,6 +36,10 @@ export class ClientService {
     console.log('methode du service qui ajoute un client', client);
     return this.http.post<Resultat<Client>>(`${environment.apiUrl}/api/auth/signupEmpl`, client);
   }
+  modifClient(client: Client): Observable<Resultat<Client>> {
+    console.log('methode du service qui ajoute un client', client);
+    return this.http.put<Resultat<Client>>(`${environment.apiUrl}/api/auth/client`, client);
+  }
   getClientById(id: Client): Observable<Resultat<Client>> {
     return this.http.get<Resultat<Client>>(`${environment.apiUrl}/api/auth/client/${id}`);
   }

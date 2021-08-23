@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Document} from '../../models/Document';
 import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
@@ -33,22 +33,20 @@ export class ListeDocComponent implements OnInit {
   ROLE_NAME: string;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private categorieService: DocumentService,
+  constructor(private documentService: DocumentService,
               public dialog: MatDialog,
               private router: Router,
               private  dialogService: DialogConfirmService,
               private _snackBar: MatSnackBar,
               private adminService: AdminService,
-              private helper: JwtHelperService,
-              private changeDetectorRefs: ChangeDetectorRef) {
+              private helper: JwtHelperService) {
   }
   ngOnInit(): void {
-    this.categorieService.getAllDocument().subscribe(data => {
+    this.documentService.getAllDocument().subscribe(data => {
       this.documents = data.body;
       this.documents.forEach(value => {
         let opp : Document = value;
         this.receptacle.push(opp);
-
       });
       this.dataSource = this.receptacle;
       this.dataSource = new MatTableDataSource<Document>(this.receptacle);
@@ -61,11 +59,9 @@ export class ListeDocComponent implements OnInit {
       this.adminService.getAdminById(decoded.sub).subscribe(res => {
         this.admin = res.body;
         this.roles = res.body.roles;
-        console.log(this.roles);
         this.roles.forEach(val => {
           this.ROLE_ADMIN = val;
           this.ROLE_NAME = this.ROLE_ADMIN.name;
-          console.log(this.ROLE_ADMIN);
         });
       });
 
@@ -84,7 +80,6 @@ export class ListeDocComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.document = result;
       this.receptacle.unshift(this.document);
       this.dataSource = this.receptacle;
@@ -94,14 +89,12 @@ export class ListeDocComponent implements OnInit {
     });
   }
   redirectToUpdate(id: any) {
-    console.log(id);
     const dialogRef = this.dialog.open(UpdateDocComponent,{
       data: {
         document: id
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.document = result;
       // this.receptacle
       this.dataSource = this.receptacle;
@@ -118,8 +111,7 @@ export class ListeDocComponent implements OnInit {
       this.dialogService.openConfirmDialog('Voulez-vous vraiment supprimer l\'élément ?')
         .afterClosed().subscribe(res => {
         if (res){
-          console.log(res);
-          this.categorieService.supprimerDocument(id).subscribe(data => {
+          this.documentService.supprimerDocument(id).subscribe(data => {
             this._snackBar.open('Succès de l\'opération!', '', {
               duration: 3000,
               horizontalPosition: this.horizontalPosition,
@@ -144,7 +136,6 @@ export class ListeDocComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.document = result;
       // this.receptacle
       this.dataSource = this.receptacle;
@@ -155,18 +146,5 @@ export class ListeDocComponent implements OnInit {
 
     });
   }
-  refresh() {
-    this.categorieService.getAllDocument().subscribe(data => {
-      this.documents = data.body;
-      this.documents.forEach(value => {
-        let opp : Document = value;
-        this.receptacle.push(opp);
 
-      });
-      this.dataSource = this.receptacle;
-      this.dataSource = new MatTableDataSource<Document>(this.receptacle);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-  }
 }

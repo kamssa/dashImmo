@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UpdateProduitVenduComponent} from '../update-produit-vendu/update-produit-vendu.component';
-import {AddTerrainsComponent} from '../../terrains/add-terrains/add-terrains.component';
 import {AddProduitComponent} from '../add-produit/add-produit.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {TerrainAcheter} from '../../models/TerrainAcheter';
@@ -10,7 +9,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {TerrainAcheterService} from '../../service/terrain-acheter.service';
 import {UpdateCoordComponent} from '../update-coord/update-coord.component';
-import {Demande} from '../../models/Demande';
+import {TerrainVenduService} from '../../service/terrain-vendu.service';
+import {TerrainVendu} from '../../models/TerrainVendu';
 
 @Component({
   selector: 'app-list-produit-vendu',
@@ -21,25 +21,28 @@ export class ListProduitVenduComponent implements OnInit {
   displayedColumns: string[] = ['libelle', 'numero', 'nomComplet', 'telephone', 'cord', 'update', 'supprimer'];
   dataSource: MatTableDataSource<TerrainAcheter>;
   terrainAcheters: TerrainAcheter[];
+  terrainVendus: TerrainVendu[];
+  terrainVendu: TerrainVendu;
   terrainAcheter: TerrainAcheter;
   receptacle: any = [];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private terrainAcheterService: TerrainAcheterService,
+              private terrainVenduService: TerrainVenduService,
               public dialog: MatDialog, private router: Router) {
   }
   ngOnInit(): void {
-    this.terrainAcheterService.getAllTerrainAcheter().subscribe(data => {
-      this.terrainAcheters = data.body;
+    this.terrainVenduService.getAllTerrainVendu().subscribe(data => {
+      this.terrainVendus = data.body;
       console.log('Voir ce qui se passe', data.body);
       if(data.body){
-        this.terrainAcheters.forEach(value => {
-          let opp : TerrainAcheter = value;
+        this.terrainVendus.forEach(value => {
+          let opp : TerrainVendu = value;
           this.receptacle.push(opp);
         });
       }
       this.dataSource = this.receptacle;
-      this.dataSource = new MatTableDataSource<TerrainAcheter>(this.receptacle);
+      this.dataSource = new MatTableDataSource<TerrainVendu>(this.receptacle);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -67,13 +70,13 @@ export class ListProduitVenduComponent implements OnInit {
     console.log(id);
     this.dialog.open(UpdateProduitVenduComponent,{
       data: {
-        terrainAcheter: id
+        terrainVendu: id
       }
     });
   }
   redirectToDelete(id: any) {
     if (confirm("Voulez vous vraiment supprimer le terrain acheté ?")) {
-      this.terrainAcheterService.supprimerTerrainAcheter(id).subscribe(data => {
+      this.terrainVenduService.supprimerTerrainVendu(id).subscribe(data => {
         if(data){
           this.terrainAcheterService.getAllTerrainAcheter()
             .subscribe(res => {
@@ -94,7 +97,7 @@ export class ListProduitVenduComponent implements OnInit {
     console.log(id);
     this.dialog.open(UpdateCoordComponent,{
       data: {
-        terrainAcheter: id
+        terrainVendu: id
       }
     });
   }
