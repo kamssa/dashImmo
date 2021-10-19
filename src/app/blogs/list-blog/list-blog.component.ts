@@ -1,19 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {ImageAccueil} from '../../models/ImageAccueil';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {ImageAccueilService} from '../../service/imageAccueil.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
-import {AddImageAccueilComponent} from '../../accueil/add-image-accueil/add-image-accueil.component';
 import {Blog} from '../../models/Blog';
 import {BlogService} from '../../service/blog.service';
 import {AddBlogComponent} from '../add-blog/add-blog.component';
-import {UpdateDocComponent} from '../../documents/update-doc/update-doc.component';
-import {Document} from '../../models/Document';
 import {UpdateBlogComponent} from '../update-blog/update-blog.component';
 
 @Component({

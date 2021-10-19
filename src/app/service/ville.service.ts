@@ -5,27 +5,30 @@ import {Ville} from '../models/combo/Ville';
 import {environment} from '../../environments/environment.prod';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VilleService {
-// observables sources
-  private categorieCreerSource = new Subject<Resultat<Ville>>();
-  private categorieModifSource = new Subject<Resultat<Ville>>();
-  private categorieFiltreSource = new Subject<string>();
-  private categorieSupprimeSource = new Subject<Resultat<boolean>>();
-
-
-// observables streams
-  travauxCreer$ = this.categorieCreerSource.asObservable();
-  travauxModif$ = this.categorieModifSource.asObservable();
-  travauxFiltre$ = this.categorieFiltreSource.asObservable();
-  travauxSupprime$ = this.categorieSupprimeSource.asObservable();
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
-
+  form: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    libelle: new FormControl('', [Validators.required] ),
+    description: new FormControl(''),
+  });
+  initializeFormGroup() {
+    this.form.setValue({
+      id: null,
+      libelle: '',
+      description: ''
+    });
+  }
+  populateForm(id) {
+    this.form.patchValue(id);
+  }
   getAllVille(): Observable<Resultat<Ville[]>> {
     return this.http.get<Resultat<Ville[]>>(`${environment.apiUrl}/api/ville`);
   }
@@ -49,43 +52,5 @@ export class VilleService {
 
   }
 
-  categorieCreer(res: Resultat<Ville>) {
-    console.log('Ville a ete  creer correctement essaie source');
-    this.categorieCreerSource.next(res);
-  }
 
-  categorieModif(res: Resultat<Ville>) {
-    this.categorieModifSource.next(res);
-  }
-
-  filtrecategorie(text: string) {
-    this.categorieFiltreSource.next(text);
-  }
-
-  categorieSupprime(res: Resultat<boolean>) {
-    this.categorieSupprimeSource.next(res);
-  }
-
-  private log(message: string) {
-    this.messageService.add('categorieService: ' + message);
-
-  }
-
-  ///////////////////////////////////////////
-  // recuper les erreurs
-
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-
-      console.error(error);
-
-
-      this.log(`${operation} non disponible: ${error.message}`);
-
-
-      return of(result as T);
-    };
-  }
 }

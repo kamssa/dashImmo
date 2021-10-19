@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageAccueilImmoComponent } from './image-accueil-immo.component';
+import { ListVersementComponent } from './list-versement.component';
 
-describe('ImageAccueilImmoComponent', () => {
-  let component: ImageAccueilImmoComponent;
-  let fixture: ComponentFixture<ImageAccueilImmoComponent>;
+describe('ListVersementComponent', () => {
+  let component: ListVersementComponent;
+  let fixture: ComponentFixture<ListVersementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImageAccueilImmoComponent ]
+      declarations: [ ListVersementComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageAccueilImmoComponent);
+    fixture = TestBed.createComponent(ListVersementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

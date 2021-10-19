@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-     apiUrl: 'https://server-immobilier.herokuapp.com'
-    // apiUrl: 'http://localhost:8080',
+    // apiUrl: 'https://server-immobilier.herokuapp.com'
+     apiUrl: 'http://localhost:8080',
 };
 
 /*

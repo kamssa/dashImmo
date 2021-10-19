@@ -48,8 +48,10 @@ export class AddFlashMaisonComponent implements OnInit {
       this.documents = data.body;
     });
     this.villeService.getAllVille().subscribe(data => {
-      console.log(data);
-      this.villes = data.body;
+      if (data.status === 0){
+        this.villes = data.body;
+        console.log(this.villes);
+      }
     });
     this.initForm();
   }
@@ -57,10 +59,14 @@ export class AddFlashMaisonComponent implements OnInit {
     if (this.document && this.ville){
       this.flashMaisonForm = this.fb.group({
         libelle: ['', Validators.required],
-        description: ['', Validators.required],
+        description: [''],
+        surfaceUtile: [''],
+        surfaceTerrain: [''],
+        flashmaisonType: [''],
+        prix: [''],
         ville: this.fb.group({
-          id: this.ville.id,
-          version: this.ville.version,
+          id: '',
+          version: '',
           libelle: ''
         })
       });
@@ -72,15 +78,17 @@ export class AddFlashMaisonComponent implements OnInit {
 
     this.flashMaisonForm = this.fb.group({
       libelle: ['', Validators.required],
-      description: ['', Validators.required],
-
+      description: [''],
+      surfaceUtile: [''],
+      surfaceTerrain: [''],
+      flashmaisonType: [''],
+      prix: [''],
       ville: this.fb.group({
         id: '',
         version: '',
         libelle: ''
       })
     });
-
 
   }
 
@@ -97,20 +105,19 @@ export class AddFlashMaisonComponent implements OnInit {
     let flashMaison: FlashMaison = {
       libelle : formValue.libelle,
       description: formValue.description,
-
       path: this.selectedFiles.item(0).name,
-
       ville: {
         id: this.ville.id,
         version: this.ville.version,
         libelle: formValue.ville.libelle
       },
-      type: 'FM'
+      type: 'FM',
+      surfaceUtile: formValue.surfaceUtile,
+      surfaceTerrain: formValue.surfaceTerrain,
+      flashmaisonType: formValue.flashmaisonType,
+      prix: formValue.prix
     };
-
-    console.log('Voir les infos de la maison ', flashMaison);
     this.flashMaisonService.ajoutFlashMaison(flashMaison).subscribe(data => {
-      console.log('maison doc enregistre avec succes', data);
       this.flashMaisonId = data.body.id;
       this.flashMaison = data.body;
       console.log(this.flashMaisonId);

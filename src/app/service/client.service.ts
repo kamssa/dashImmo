@@ -5,7 +5,8 @@ import {Client} from "../models/Client";
 import {HttpClient} from "@angular/common/http";
 import {MessageService} from "./message.service";
 import {environment} from "../../environments/environment";
-import {Personne} from "../models/Personne";
+import { Personne } from '../models/Personne';
+import { map, tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,16 @@ export class ClientService {
   getClientByEmail(email: string): Observable<Resultat<Personne>> {
     return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/getClient/${email}`);
   }
+  rechercheClientParMc(mc: string): Observable<Array<Personne>> {
+    return this.http.get<Resultat<Array<Personne>>>(`${environment.apiUrl}/api/auth/clientbyMc/${mc}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Array<Personne>>('rechercheClientParMc'))
+      );
+
+  }
+
   clientCreer(res: Resultat<Client>) {
     console.log('Employe a ete  creer correctement essaie source');
     this.clientCreerSource.next(res);

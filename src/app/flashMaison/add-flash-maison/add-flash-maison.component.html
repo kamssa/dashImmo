@@ -4,12 +4,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Ajouter une maison flash</h4>
+            <h4 class="card-title">Ajouter une flash maison </h4>
           </div>
           <div class="card-body">
             <form [formGroup]="flashMaisonForm" (ngSubmit)="onSubmit()">
-
-
               <mat-form-field class="example-full-width" appearance="fill" formGroupName="ville">
                 <mat-label >Selection une ville</mat-label>
                 <mat-select formControlName="libelle" (selectionChange)="greetVille($event)">
@@ -21,6 +19,22 @@
               <br>
               <mat-form-field>
                 <input matInput type="text" placeholder="Libelle" formControlName="libelle"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Surface utile" formControlName="surfaceUtile"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Surface terrain" formControlName="surfaceTerrain"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Prix" formControlName="prix"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Type maison" formControlName="flashmaisonType"/>
               </mat-form-field>
               <br>
               <mat-form-field>

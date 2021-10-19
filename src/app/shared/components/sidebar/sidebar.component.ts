@@ -4,6 +4,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {ClientService} from '../../../service/client.service';
 import {AuthService} from '../../../service/auth.service';
 import {Personne} from '../../../models/Personne';
+import {AdminService} from '../../../service/admin.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,13 +12,12 @@ import {Personne} from '../../../models/Personne';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  title = 'projectboris';
   personne: Personne;
   nom: string;
   premierC: string;
   constructor(private router: Router,
               private helper: JwtHelperService,
-              private  clientService: ClientService,
+              private  adminService: AdminService,
               private  authService: AuthService) {
   }
 
@@ -32,9 +32,7 @@ export class SidebarComponent implements OnInit {
     if (localStorage.getItem('currentUser')) {
       let token = localStorage.getItem('currentUser');
       let decode = this.helper.decodeToken(token);
-      console.log(' Dans la navbar', decode);
-      this.clientService.getClientById(decode.sub).subscribe(res => {
-        console.log('admin', res.body);
+      this.adminService.getAdminById(decode.sub).subscribe(res => {
         this.personne = res.body;
         this.nom = this.personne.nom;
         this.premierC = this.nom.substr(0, 1);

@@ -21,7 +21,7 @@ import {VoirDetailMaisonComponent} from '../voir-detail-maison/voir-detail-maiso
   styleUrls: ['./liste-maison.component.scss']
 })
 export class ListeMaisonComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'description', 'ville', 'image', 'detail', 'voirDetail', 'modifierImage', 'update', 'supprimer'];
+  displayedColumns: string[] = ['libelle', 'surfaceUtile', 'surfaceTerrain', 'prix', 'maisonType', 'description', 'ville', 'image', 'detail', 'voirDetail', 'modifierImage', 'update', 'supprimer'];
   dataSource: MatTableDataSource<Maison>;
   maisons: Maison[];
   maison: Maison;

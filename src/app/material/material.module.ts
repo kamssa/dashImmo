@@ -23,6 +23,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 const  materialComponents = [
   MatToolbarModule,
@@ -54,7 +55,9 @@ const  materialComponents = [
   MatToolbarModule,
   MatFormFieldModule,
   MatMenuModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatGridListModule
 
 
 ];

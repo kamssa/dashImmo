@@ -13,9 +13,7 @@ import {SuccessDialogComponent} from '../../service/shared/dialogs/success-dialo
 import {MatConfirmDialogComponent} from '../../service/shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import {AddDocComponent} from '../../documents/add-doc/add-doc.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {UpdateDocComponent} from '../../documents/update-doc/update-doc.component';
 import {ListeDocComponent} from '../../documents/liste-doc/liste-doc.component';
-import {ModalDocComponent} from '../../documents/modal-doc/modal-doc.component';
 import {AddTerrainsComponent} from '../../terrains/add-terrains/add-terrains.component';
 import {DetailTerrainComponent} from '../../terrains/detail-terrain/detail-terrain.component';
 import {ListeTerrainsComponent} from '../../terrains/liste-terrains/liste-terrains.component';
@@ -33,9 +31,6 @@ import {UpadateMaisonComponent} from '../../maison/upadate-maison/upadate-maison
 import {UpdateDetailMaisonComponent} from '../../maison/update-detail-maison/update-detail-maison.component';
 import {VoirDetailMaisonComponent} from '../../maison/voir-detail-maison/voir-detail-maison.component';
 import {AddVilleComponent} from '../../villes/add-ville/add-ville.component';
-import {ListeVilleComponent} from '../../villes/liste-ville/liste-ville.component';
-import {UpdateVilleComponent} from '../../villes/update-ville/update-ville.component';
-import {VillesComponent} from '../../villes/villes/villes.component';
 import {AddFlashMaisonComponent} from '../../flashMaison/add-flash-maison/add-flash-maison.component';
 import {ListFlashMaisonComponent} from '../../flashMaison/list-flash-maison/list-flash-maison.component';
 import {DetailFlashMaisonComponent} from '../../flashMaison/detail-flash-maison/detail-flash-maison.component';
@@ -44,8 +39,6 @@ import {VoirFlashMaisonComponent} from '../../flashMaison/voir-flash-maison/voir
 import {AddFlashTerrainComponent} from '../../flashTerrain/add-flash-terrain/add-flash-terrain.component';
 import {ListFlashTerrainComponent} from '../../flashTerrain/list-flash-terrain/list-flash-terrain.component';
 import {UpdateFlashTerrainComponent} from '../../flashTerrain/update-flash-terrain/update-flash-terrain.component';
-import {ImageAccueilComponent} from '../../accueil/image-accueil/image-accueil.component';
-import {ImageAccueilImmoComponent} from '../../accueilimmo/image-accueil-immo/image-accueil-immo.component';
 import {BlogsComponent} from '../../blogs/blogs/blogs.component';
 import {AddClientComponent} from '../../client/add-client/add-client.component';
 import {ListClientComponent} from '../../client/list-client/list-client.component';
@@ -69,6 +62,16 @@ import {ListProgrammeComponent} from '../../programme/list-programme/list-progra
 import {VenteFlashComponent} from '../../vente/vente-flash/vente-flash.component';
 import {AddImageAccueilComponent} from '../../accueil/add-image-accueil/add-image-accueil.component';
 import {ListImageAccueilComponent} from '../../accueil/list-image-accueil/list-image-accueil.component';
+import {ConnexionComponent} from '../../connexion/connexion.component';
+import {ListeVilleComponent} from '../../villes/liste-ville/liste-ville.component';
+import {AddBlogComponent} from '../../blogs/add-blog/add-blog.component';
+import {ListBlogComponent} from '../../blogs/list-blog/list-blog.component';
+import {UpdateBlogComponent} from '../../blogs/update-blog/update-blog.component';
+import { AddVersementComponent } from 'src/app/versement/add-versement/add-versement.component';
+import { ListVersementComponent } from 'src/app/versement/list-versement/list-versement.component';
+import { VersementComponent } from 'src/app/versement/versement/versement.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -82,9 +85,7 @@ import {ListImageAccueilComponent} from '../../accueil/list-image-accueil/list-i
     SuccessDialogComponent,
     MatConfirmDialogComponent,
     AddDocComponent,
-    UpdateDocComponent,
     ListeDocComponent,
-    ModalDocComponent,
     AddTerrainsComponent,
     DetailTerrainComponent,
     ListeTerrainsComponent,
@@ -103,8 +104,6 @@ import {ListImageAccueilComponent} from '../../accueil/list-image-accueil/list-i
     UpdateDetailMaisonComponent,
     VoirDetailMaisonComponent,
     AddVilleComponent,
-    UpdateVilleComponent,
-    VillesComponent,
     AddFlashMaisonComponent,
     ListFlashMaisonComponent,
     DetailFlashMaisonComponent,
@@ -113,8 +112,6 @@ import {ListImageAccueilComponent} from '../../accueil/list-image-accueil/list-i
     AddFlashTerrainComponent,
     ListFlashTerrainComponent,
     UpdateFlashTerrainComponent,
-    ImageAccueilComponent,
-    ImageAccueilImmoComponent,
     BlogsComponent,
     AddClientComponent,
     ListClientComponent,
@@ -138,15 +135,24 @@ import {ListImageAccueilComponent} from '../../accueil/list-image-accueil/list-i
     VenteFlashComponent,
     AddImageAccueilComponent,
     ListImageAccueilComponent,
+    ConnexionComponent,
+    ListeVilleComponent,
+    AddBlogComponent,
+    ListBlogComponent,
+    UpdateBlogComponent,
+    AddVersementComponent,
+    ListVersementComponent,
+    VersementComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        MaterialModule,
-        FlexLayoutModule,
-        RouterModule,
-        ReactiveFormsModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    SharedModule,
+    FlexLayoutModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+  ]
 })
 export class DefaultModule { }

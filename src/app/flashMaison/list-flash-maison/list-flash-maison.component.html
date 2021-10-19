@@ -4,49 +4,64 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-rose">
-            <h4 class="card-title">La liste des ventes Flash</h4>
+            <h4 class="card-title">La liste des flash maison</h4>
           </div>
           <div class="row">
             <div class="col-md-4">
-              <button mat-button (click)="openDialog()"> Ajouter une  vente flash</button>
+              <button mat-button (click)="openDialog()"> Ajouter une flash maison </button>
             </div>
             <div class="col-md-6">
               <mat-form-field >
                 <input matInput (keyup)="applyFilter($event)"  placeholder="Recherche..." #input>
               </mat-form-field>
             </div>
-
           </div>
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
             <!-- Position Column -->
             <ng-container matColumnDef="libelle">
               <th mat-header-cell *matHeaderCellDef> Libelle </th>
-              <td mat-cell *matCellDef="let flashMaison"> {{flashMaison.libelle}} </td>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.libelle}} </td>
+            </ng-container>
+            <ng-container matColumnDef="surfaceUtile">
+              <th mat-header-cell *matHeaderCellDef> Surface utile </th>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.surfaceUtile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="surfaceTerrain">
+              <th mat-header-cell *matHeaderCellDef> Surface terrain </th>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.surfaceTerrain}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prix">
+              <th mat-header-cell *matHeaderCellDef> Prix </th>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.prix}} </td>
+            </ng-container>
+            <ng-container matColumnDef="maisonType">
+              <th mat-header-cell *matHeaderCellDef> Type maison </th>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.maisonType}} </td>
             </ng-container>
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef> Description </th>
-              <td mat-cell *matCellDef="let flashMaison"> {{flashMaison.description}} </td>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons.description}} </td>
             </ng-container>
             <ng-container matColumnDef="ville">
               <th mat-header-cell *matHeaderCellDef> Ville </th>
-              <td mat-cell *matCellDef="let flashMaison"> {{flashMaison?.ville?.libelle}} </td>
+              <td mat-cell *matCellDef="let flashMaisons"> {{flashMaisons?.ville?.libelle}} </td>
             </ng-container>
             <ng-container matColumnDef="image">
               <th mat-header-cell *matHeaderCellDef> Image </th>
-              <td mat-cell *matCellDef="let flashMaison"> <img [src]="flashMaison.path"/></td>
+              <td mat-cell *matCellDef="let flashMaisons"> <img [src]="flashMaisons.path"/></td>
             </ng-container>
             <ng-container matColumnDef="detail">
               <th mat-header-cell *matHeaderCellDef>Ajout détail </th>
-              <td mat-cell *matCellDef="let flashMaison">
-                <button mat-icon-button color="accent" (click)="redirectToDetail(flashMaison.id)">
+              <td mat-cell *matCellDef="let flashMaisons">
+                <button mat-icon-button color="accent" (click)="redirectToDetail(flashMaisons.id)">
                   <mat-icon class="mat-18">system_update</mat-icon>
                 </button>
               </td>
             </ng-container>
             <ng-container matColumnDef="voirDetail">
               <th mat-header-cell *matHeaderCellDef> Edit détail </th>
-              <td mat-cell *matCellDef="let flashMaison">
-                <button mat-icon-button color="accent" (click)="redirectToVoirDetail(flashMaison.id)">
+              <td mat-cell *matCellDef="let flashMaisons">
+                <button mat-icon-button color="accent" (click)="redirectToVoirDetail(flashMaisons.id)">
                   <mat-icon class="mat-18">system_update</mat-icon>
                 </button>
               </td>
@@ -54,25 +69,25 @@
 
             <ng-container matColumnDef="modifierImage">
               <th mat-header-cell *matHeaderCellDef> Editer image</th>
-              <td mat-cell *matCellDef="let flashMaison">
-                <button mat-icon-button color="accent" (click)="redirectToModifImage(flashMaison.id)">
+              <td mat-cell *matCellDef="let flashMaisons">
+                <button mat-icon-button color="accent" (click)="redirectToModifImage(flashMaisons.id)">
                   <mat-icon class="mat-18">system_update</mat-icon>
                 </button>
               </td>
             </ng-container>
             <ng-container matColumnDef="update">
-              <th mat-header-cell *matHeaderCellDef> Modifier Flash Maison</th>
-              <td mat-cell *matCellDef="let flashMaison">
-                <button mat-icon-button color="accent" (click)="redirectToUpdate(flashMaison.id)">
+              <th mat-header-cell *matHeaderCellDef> Modifier maison</th>
+              <td mat-cell *matCellDef="let flashMaisons">
+                <button mat-icon-button color="accent" (click)="redirectToUpdate(flashMaisons.id)">
                   <mat-icon class="mat-18">system_update</mat-icon>
                 </button>
               </td>
             </ng-container>
 
-            <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef> Supprimer Flash Maison </th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="warn" (click)="redirectToDelete(maison.id)">
+            <ng-container matColumnDef="supprimer">
+              <th mat-header-cell *matHeaderCellDef> Supprimer maison </th>
+              <td mat-cell *matCellDef="let flashMaisons">
+                <button mat-icon-button color="warn" (click)="redirectToDelete(flashMaisons.id)">
                   <mat-icon class="mat-18">delete</mat-icon>
                 </button>
               </td>
@@ -83,7 +98,7 @@
               <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
             </tr>
           </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 15,20, 25, 30, 35]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [pageSizeOptions]="[5, 10, 15,20]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
     </div>

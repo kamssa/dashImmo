@@ -1,31 +1,29 @@
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Ajouter une categorie</h4>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="villeForm" (ngSubmit)="createVille(villeForm.value)">
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Nom" type="text" formControlName="libelle">
-                  </mat-form-field>
-                </div>
-
-              </div>
-
-              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Valider</button>
-              <div class="clearfix"></div>
-              <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-
-            </form>
-          </div>
+<mat-toolbar>
+  <span>{{villeService.form.controls['id'].value?"Modifier la ville":"Nouvelle ville"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="villeService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="1" rowHeight="100px">
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden" formControlName="id">
+        <mat-form-field>
+          <input  matInput formControlName="libelle"  placeholder="Nom">
+          <mat-error>Ce champ est obligatoire.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="description"  placeholder="Description">
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="controles-container">
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit" [disabled]="villeService.form.invalid">Submit</button>
+          <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
         </div>
       </div>
-
-    </div>
-  </div>
-</div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

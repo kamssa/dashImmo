@@ -43,50 +43,22 @@ export class AddMaisonComponent implements OnInit {
 
   }
   ngOnInit(): void{
-    this.documentService.getAllDocument().subscribe(data => {
-      console.log(data);
-      this.documents = data.body;
-    });
     this.villeService.getAllVille().subscribe(data => {
       console.log(data);
       this.villes = data.body;
     });
     this.initForm();
   }
-  ngAfterViewInit(): void {
-    if (this.document && this.ville){
-      this.maisonForm = this.fb.group({
-        libelle: ['', Validators.required],
-        description: ['', Validators.required],
-       /* prix: ['', Validators.required],*/
-        /*document: this.fb.group({
-          id: this.document.id,
-          version: this.document.version,
-          libelle: '',
-          description: this.document.description
-        }),*/
-        ville: this.fb.group({
-          id: this.ville.id,
-          version: this.ville.version,
-          libelle: ''
-        })
-      });
-    }
-
-  }
 
   initForm(): void{
 
     this.maisonForm = this.fb.group({
       libelle: ['', Validators.required],
-      description: ['', Validators.required],
-    /*  prix: ['', Validators.required],*/
-     /* document: this.fb.group({
-        id: '',
-        version: '',
-        libelle: '',
-        description: ''
-      }),*/
+      description: [''],
+      surfaceUtile: [''],
+      surfaceTerrain: [''],
+      maisonType: [''],
+      prix: [''],
       ville: this.fb.group({
         id: '',
         version: '',
@@ -100,29 +72,22 @@ export class AddMaisonComponent implements OnInit {
   selectFile(event): void {
     this.selectedFiles = event.target.files;
   }
-
-  onFileSelected(event) {
-    this.selectedFile = (event.target.files[0] as File);
-    console.log('Voir le ichier selectionne', this.selectedFile);
-  }
   onSubmit(): void {
     let formValue = this.maisonForm.value;
     let maison: Maison = {
       libelle : formValue.libelle,
       description: formValue.description,
-      /*prix: formValue.prix,*/
       path: this.selectedFiles.item(0).name,
-     /* document: {
-        id: this.document.id,
-        version: this.document.version,
-        libelle: formValue.document.nom,
-        description: this.document.description},*/
       ville: {
         id: this.ville.id,
         version: this.ville.version,
         libelle: formValue.ville.libelle
       },
-      type: 'MA'
+      type: 'MA',
+      surfaceUtile: formValue.surfaceUtile,
+      surfaceTerrain: formValue.surfaceTerrain,
+      maisonType: formValue.maisonType,
+      prix: formValue.prix
     };
 
     console.log('Voir les infos de la maison ', maison);

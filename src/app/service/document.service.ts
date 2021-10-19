@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment.prod';
 import {Resultat} from '../models/resultat';
 import {MessageService} from './message.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +13,6 @@ import {MessageService} from './message.service';
 export class DocumentService {
 // observables sources
   documents: Document[];
-  private categorieCreerSource = new Subject<Resultat<Document>>();
-  private categorieModifSource = new Subject<Resultat<Document>>();
-  private categorieFiltreSource = new Subject<string>();
-  private categorieSupprimeSource = new Subject<Resultat<boolean>>();
-
-
-// observables streams
-  travauxCreer$ = this.categorieCreerSource.asObservable();
-  travauxModif$ = this.categorieModifSource.asObservable();
-  travauxFiltre$ = this.categorieFiltreSource.asObservable();
-  travauxSupprime$ = this.categorieSupprimeSource.asObservable();
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
@@ -30,13 +20,24 @@ export class DocumentService {
   getAllDocument(): Observable<Resultat<Document[]>> {
     return this.http.get<Resultat<Document[]>>(`${environment.apiUrl}/api/document`);
   }
-
+  form: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    libelle: new FormControl('',[Validators.required] ),
+    description: new FormControl(''),
+  });
+  initializeFormGroup() {
+    this.form.setValue({
+      id: null,
+      libelle: '',
+      description: ''
+    });
+  }
   ajoutDocument(categorie: Document): Observable<Resultat<Document>> {
     console.log('methode du service qui ajoute  categorie', categorie);
     return this.http.post<Resultat<Document>>(`${environment.apiUrl}/api/document`, categorie);
   }
   modifDocument(categorie: Document): Observable<Resultat<Document>> {
-    console.log('methode du service qui modifier categorie', categorie);
+    console.log('methode du service qui modifier document', categorie);
     return this.http.put<Resultat<Document>>(`${environment.apiUrl}/api/document`, categorie);
   }
   getDocumentById(id: number): Observable<Resultat<Document>> {
@@ -49,44 +50,7 @@ export class DocumentService {
     return this.http.delete(`${environment.apiUrl}/api/document/${id}`);
 
   }
-
-  categorieCreer(res: Resultat<Document>) {
-    console.log('categorie a ete  creer correctement essaie source');
-    this.categorieCreerSource.next(res);
-  }
-
-  categorieModif(res: Resultat<Document>) {
-    this.categorieModifSource.next(res);
-  }
-
-  filtrecategorie(text: string) {
-    this.categorieFiltreSource.next(text);
-  }
-
-  categorieSupprime(res: Resultat<boolean>) {
-    this.categorieSupprimeSource.next(res);
-  }
-
-  private log(message: string) {
-    this.messageService.add('categorieService: ' + message);
-
-  }
-
-  ///////////////////////////////////////////
-  // recuper les erreurs
-
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-
-      console.error(error);
-
-
-      this.log(`${operation} non disponible: ${error.message}`);
-
-
-      return of(result as T);
-    };
+  populateForm(id) {
+    this.form.patchValue(id);
   }
 }

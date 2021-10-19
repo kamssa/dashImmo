@@ -22,7 +22,7 @@ import {VoirFlashMaisonComponent} from '../voir-flash-maison/voir-flash-maison.c
   styleUrls: ['./list-flash-maison.component.scss']
 })
 export class ListFlashMaisonComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'description', 'ville', 'image', 'detail', 'voirDetail', 'modifierImage',  'update', 'delete'];
+  displayedColumns: string[] = ['libelle', 'surfaceUtile', 'surfaceTerrain', 'prix', 'maisonType', 'description', 'ville', 'image', 'detail', 'voirDetail', 'modifierImage', 'update', 'supprimer'];
   dataSource: MatTableDataSource<FlashMaison>;
   flashMaisons: FlashMaison[];
   flashMaison: FlashMaison;
@@ -37,7 +37,6 @@ export class ListFlashMaisonComponent implements OnInit {
   ngOnInit(): void {
     this.flashMaisonService.getAllFlashMaison().subscribe(data => {
       this.flashMaisons = data.body;
-      console.log('Voir ce qui se passe', data.body);
       if(data.body){
         this.flashMaisons.forEach(value => {
           let opp : FlashMaison = value;

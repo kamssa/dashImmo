@@ -5,39 +5,27 @@ import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MaterialModule} from './material/material.module';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {ErrorInterceptor} from './helper/error.interceptor';
 import {APP_DATE_FORMATS, AppDateAdapter} from './helper/format-datepicker';
 import {RxStompService} from '@stomp/ng2-stompjs';
-import {ConnexionComponent} from './connexion/connexion.component';
 import {DefaultModule} from './layouts/default/default.module';
-import {ListeVilleComponent} from './villes/liste-ville/liste-ville.component';
 import {JwtInterceptor} from './helper/jwt.interceptor';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { PaiementComponent } from './paiement/paiement/paiement.component';
-import { AddBlogComponent } from './blogs/add-blog/add-blog.component';
-import { ListBlogComponent } from './blogs/list-blog/list-blog.component';
-import { UpdateBlogComponent } from './blogs/update-blog/update-blog.component';
+import {MaterialModule} from './material/material.module';
+
 registerLocaleData(localeFr);
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ConnexionComponent,
-    ListeVilleComponent,
-    PaiementComponent,
-    AddBlogComponent,
-    ListBlogComponent,
-    UpdateBlogComponent
-
-  ],
+    AppComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -46,8 +34,9 @@ registerLocaleData(localeFr);
     FormsModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    MaterialModule,
-    DefaultModule
+    DefaultModule,
+    MaterialModule
+
 
   ],
   providers: [

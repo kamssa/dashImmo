@@ -8,15 +8,6 @@
           </div>
           <div class="card-body">
             <form [formGroup]="maisonForm" (ngSubmit)="onSubmit()">
-              <!--<mat-form-field class="example-full-width" appearance="fill" formGroupName="document">
-                <mat-label>Selection un document</mat-label>
-                <mat-select formControlName="libelle" (selectionChange)="greetCat($event)" [(value)]="selected">
-                  <mat-option *ngFor="let c of documents" [value]="c.id">
-                    {{c.libelle}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>-->
-
               <mat-form-field class="example-full-width" appearance="fill" formGroupName="ville">
                 <mat-label >Selection une ville</mat-label>
                 <mat-select formControlName="libelle" (selectionChange)="greetVille($event)">
@@ -28,6 +19,22 @@
               <br>
               <mat-form-field>
                 <input matInput type="text" placeholder="Libelle" formControlName="libelle"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Surface utile" formControlName="surfaceUtile"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Surface terrain" formControlName="surfaceTerrain"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Prix" formControlName="prix"/>
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Type maison" formControlName="maisonType"/>
               </mat-form-field>
               <br>
               <mat-form-field>

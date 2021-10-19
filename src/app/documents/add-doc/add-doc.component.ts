@@ -7,6 +7,7 @@ import {DocumentService} from '../../service/document.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {NotificationService} from '../../helper/notification.service';
 
 @Component({
   selector: 'app-add-doc',
@@ -19,75 +20,62 @@ export class AddDocComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   submitted = false;
   private dialogConfig;
-  matcher = new MyErrorStateMatcher();
-  libelle = new FormControl('',
-    [Validators.required] );
-  description = new FormControl('');
+
   error = '';
 
   constructor(public fb: FormBuilder,
-              private  documentService: DocumentService,
+              public  documentService: DocumentService,
               private location: Location,
+              private notificationService: NotificationService,
               public dialogRef: MatDialogRef<AddDocComponent>,
               private  router: Router, private _snackBar: MatSnackBar,
               @Inject(MAT_DIALOG_DATA) public data: Document) { }
 
+
+
+
   ngOnInit(): void {
-    this.initForm();
-    this.dialogConfig = {
-      height: '200px',
-      width: '400px',
-      disableClose: true,
-      data: { }
-    };
-  }
+    this.documentService.getAllDocument().subscribe(dat => {
 
-  initForm() {
-    this.docForm = this.fb.group({
-      libelle: new FormControl('',[Validators.required] ),
-      description: new FormControl(''),
     });
+
   }
+
+
   // convenience getter for easy access to form fields
-  get f() {
-    return this.docForm.controls;
-  }
-  public hasError = (controlName: string, errorName: string) => {
-    return this.docForm.controls[controlName].hasError(errorName);
-  }
-  public createCategorie = (createCategorieFormValue) => {
-    console.log('voir info', this.docForm.value);
-    if (this.docForm.valid) {
-      this.onSubmit(createCategorieFormValue);
-    }
-  }
 
-  onSubmit(createCategorieFormValue): void{
-    console.log('voir les valeurs assignés', createCategorieFormValue.value);
-    let  document: Document = {
-      libelle: createCategorieFormValue.libelle,
-      description: createCategorieFormValue.description,
-    };
-    this.documentService.ajoutDocument(document).subscribe(data => {
-        this.categorie = data.body;
-
-        if (data.status === 0){
-          this.dialogRef.close(this.categorie);
-          this._snackBar.open('Succès de l\'opération!', '', {
-            duration: 3000,
-            verticalPosition: 'top',
-          });
-        }else {
-          this.error = data.messages[0];
-          console.log( data.messages);
-        }
-
-      }, error => {
-        this.error = error;
-        console.log(this.error);
+  onSubmit(): void{
+    if (this.documentService.form.valid) {
+    if (!this.documentService.form.get('id').value){
+      this.documentService.ajoutDocument(this.documentService.form.value).subscribe(res =>{
+      if(res.status === 0){
+        this.notificationService.success('Document ajouté avec succès');
+      }
+      });
 
       }
-    );
-    this.router.navigate(['document']);
+    else{
+      this.documentService.modifDocument(this.documentService.form.value).subscribe(result => {
+        console.log(result.status);
+      });
+      this.documentService.form.reset();
+      this.documentService.initializeFormGroup();
+      this.notificationService.success('Document modifié avec succès');
+    }
+    this.onClose();
+
+  }
+  }
+
+  onClose() {
+    this.documentService.form.reset();
+    this.documentService.initializeFormGroup();
+    this.dialogRef.close();
+  }
+
+  onClear() {
+    this.documentService.form.reset();
+    this.documentService.initializeFormGroup();
+    this.notificationService.success('Champs réinitialisés!');
   }
 }

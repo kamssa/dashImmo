@@ -62,25 +62,7 @@ get f() { return this.connexionForm.controls; }
       const email = this.connexionForm.get('email').value;
       const password = this.connexionForm.get('password').value;
       this.loading = true;
-      const  admin = new Personne(
-        null,
-        null,
-        null,
-        null,
-        null,
-        email,
-        null,
-        null,
-        null,
-        password,
-        null,
-        null,
-         null,
-        false,
-        'AD',
-
-
-      );
+      const  admin = new Personne(null, null, null, null, null, email, null, null, null, password, null, null, null, false, 'AD');
       this.authService.login(admin).subscribe(data => {
           if (data.body){
             this.snackBar.open('Succès de la connexion!', '', {

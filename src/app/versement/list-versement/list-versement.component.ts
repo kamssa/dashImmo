@@ -1,26 +1,25 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {Document} from '../../models/Document';
-import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
-import {Admin} from '../../models/Admin';
-import {MatSort} from '@angular/material/sort';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {AddDocComponent} from '../add-doc/add-doc.component';
-import {DocumentService} from '../../service/document.service';
-import {DialogConfirmService} from '../../helper/dialog-confirm.service';
-import {AdminService} from '../../service/admin.service';
-import {NotificationService} from '../../helper/notification.service';
+import { VersementService } from './../../service/versement.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Admin } from 'src/app/models/Admin';
+import { Router } from '@angular/router';
+import { DialogConfirmService } from 'src/app/helper/dialog-confirm.service';
+import { NotificationService } from 'src/app/helper/notification.service';
+import { AdminService } from 'src/app/service/admin.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AddVersementComponent } from '../add-versement/add-versement.component';
 
 @Component({
-  selector: 'app-liste-doc',
-  templateUrl: './liste-doc.component.html',
-  styleUrls: ['./liste-doc.component.scss']
+  selector: 'app-list-versement',
+  templateUrl: './list-versement.component.html',
+  styleUrls: ['./list-versement.component.scss']
 })
-export class ListeDocComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'description', 'actions'];
+export class ListVersementComponent implements OnInit {
+  displayedColumns: string[] = ['date','montant', 'client','terrain','solde','reste', 'actions'];
   listData: MatTableDataSource<any>;
   documents: Document[];
   document: Document;
@@ -33,7 +32,7 @@ export class ListeDocComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   searchKey: any;
-  constructor(private documentService: DocumentService,
+  constructor(private versementService: VersementService,
               public dialog: MatDialog,
               private router: Router,
               private  dialogService: DialogConfirmService,
@@ -43,7 +42,7 @@ export class ListeDocComponent implements OnInit {
               private helper: JwtHelperService) {
   }
   ngOnInit(): void {
-    this.documentService.getAllDocument().subscribe(list => {
+    this.versementService.getAllVersement().subscribe(list => {
       let array = list.body.map(item => {
         return {
           id: item.id,
@@ -60,7 +59,7 @@ export class ListeDocComponent implements OnInit {
       };
 
       });
-    if(localStorage.getItem('currentUser')) {
+    /*if(localStorage.getItem('currentUser')) {
       let token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.adminService.getAdminById(decoded.sub).subscribe(res => {
@@ -72,7 +71,7 @@ export class ListeDocComponent implements OnInit {
         });
       });
 
-    }
+    }*/
   }
 
   onSearchClear() {
@@ -84,29 +83,30 @@ export class ListeDocComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
   onCreate() {
-    this.documentService.initializeFormGroup();
+    //this.versementService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    this.dialog.open(AddDocComponent, dialogConfig);
+    this.dialog.open(AddVersementComponent, dialogConfig);
   }
 
   onEdit(row){
-    this.documentService.populateForm(row);
+   // this.versementService.populateForm(row);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    this.dialog.open(AddDocComponent, dialogConfig);
+    this.dialog.open(AddVersementComponent, dialogConfig);
   }
 
   onDelete(id){
     if(confirm('Voulez-vous vraiment supprimer le document ?')){
-      this.documentService.supprimerDocument(id).subscribe(result => {
+      this.versementService.supprimerVersement(id).subscribe(result => {
         console.log(result);
       });
       this.notificationService.warn('!Suppression avec succès');
     }
   }
+
 }

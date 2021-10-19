@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-rose">
-            <h4 class="card-title">La liste des Produit</h4>
+            <h4 class="card-title">La liste des maisons</h4>
           </div>
           <div class="row">
             <div class="col-md-4">
@@ -15,13 +15,28 @@
                 <input matInput (keyup)="applyFilter($event)"  placeholder="Recherche..." #input>
               </mat-form-field>
             </div>
-
           </div>
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
             <!-- Position Column -->
             <ng-container matColumnDef="libelle">
               <th mat-header-cell *matHeaderCellDef> Libelle </th>
               <td mat-cell *matCellDef="let maison"> {{maison.libelle}} </td>
+            </ng-container>
+            <ng-container matColumnDef="surfaceUtile">
+              <th mat-header-cell *matHeaderCellDef> Surface utile </th>
+              <td mat-cell *matCellDef="let maison"> {{maison.surfaceUtile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="surfaceTerrain">
+              <th mat-header-cell *matHeaderCellDef> Surface terrain </th>
+              <td mat-cell *matCellDef="let maison"> {{maison.surfaceTerrain}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prix">
+              <th mat-header-cell *matHeaderCellDef> Prix </th>
+              <td mat-cell *matCellDef="let maison"> {{maison.prix}} </td>
+            </ng-container>
+            <ng-container matColumnDef="maisonType">
+              <th mat-header-cell *matHeaderCellDef> Type maison </th>
+              <td mat-cell *matCellDef="let maison"> {{maison.maisonType}} </td>
             </ng-container>
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef> Description </th>

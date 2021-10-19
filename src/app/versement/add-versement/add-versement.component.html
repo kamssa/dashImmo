@@ -1,0 +1,42 @@
+<mat-toolbar>
+  <span>{{versementService.form.controls['id'].value?"Modifier le versement":"Nouveau versement"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="versementService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="1" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden" formControlName="id">
+        <mat-form-field>
+          <input  matInput formControlName="date"  placeholder="Date">
+          <mat-error>Ce champ est obligatoire.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="terrainVendu"  placeholder="Client">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="terrainVendu"  placeholder="Terrain">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="montantVerse"  placeholder="Montant">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="solde"  placeholder="Solde">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="reste"  placeholder="Reste">
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="controles-container">
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit" [disabled]="versementService.form.invalid">Submit</button>
+          <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
