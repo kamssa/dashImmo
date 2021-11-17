@@ -42,7 +42,6 @@ import {UpdateFlashTerrainComponent} from '../../flashTerrain/update-flash-terra
 import {BlogsComponent} from '../../blogs/blogs/blogs.component';
 import {AddClientComponent} from '../../client/add-client/add-client.component';
 import {ListClientComponent} from '../../client/list-client/list-client.component';
-import {UpdateClientComponent} from '../../client/update-client/update-client.component';
 import {DemandeSelectComponent} from '../../demande/demande-select/demande-select.component';
 import {ListeDemandeComponent} from '../../demande/liste-demande/liste-demande.component';
 import {ListeDemandeLuComponent} from '../../demande/liste-demande-lu/liste-demande-lu.component';
@@ -71,6 +70,8 @@ import { AddVersementComponent } from 'src/app/versement/add-versement/add-verse
 import { ListVersementComponent } from 'src/app/versement/list-versement/list-versement.component';
 import { VersementComponent } from 'src/app/versement/versement/versement.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {Ng2TelInputModule} from 'ng2-tel-input';
+import { UpdateVersementComponent } from 'src/app/versement/update-versement/update-versement.component';
 
 
 
@@ -115,7 +116,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BlogsComponent,
     AddClientComponent,
     ListClientComponent,
-    UpdateClientComponent,
     DemandeSelectComponent,
     ListeDemandeComponent,
     ListeDemandeLuComponent,
@@ -142,7 +142,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UpdateBlogComponent,
     AddVersementComponent,
     ListVersementComponent,
-    VersementComponent
+    VersementComponent,
+    UpdateVersementComponent
   ],
   imports: [
     CommonModule,
@@ -153,6 +154,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    Ng2TelInputModule
+
   ]
 })
 export class DefaultModule { }

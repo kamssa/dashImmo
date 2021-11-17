@@ -9,6 +9,7 @@ export class Admin extends Personne{
               public prenom?: string,
               public email?: string,
               public  numCni?: string,
+              public numPassport?: string,
               public codePays?: string,
               public telephone?: string,
               public password?: string,
@@ -16,7 +17,9 @@ export class Admin extends Personne{
               public nomComplet?: string,
               public adresse?: Adresse,
               public actived?: boolean,
+              public desactiver?: boolean,
               public type?: string) {
-    super(id, version, titre, nom, prenom, email, numCni, codePays, telephone, password, fonction, nomComplet, adresse, actived, type);
+    super(id, version, titre, nom, prenom, email, numCni, numPassport, codePays, telephone, password, fonction, nomComplet, adresse, actived,desactiver, type);
   }
+
 }

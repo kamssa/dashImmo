@@ -17,6 +17,8 @@ import {ListFlashMaisonComponent} from './flashMaison/list-flash-maison/list-fla
 import {ListImageAccueilComponent} from './accueil/list-image-accueil/list-image-accueil.component';
 import {ListBlogComponent} from './blogs/list-blog/list-blog.component';
 import { VersementComponent } from './versement/versement/versement.component';
+import { ListDepComponent } from './departement/list-dep/list-dep.component';
+
 
 const routes: Routes = [
 
@@ -39,7 +41,9 @@ const routes: Routes = [
      { path: 'imageAccueil',   component: ListImageAccueilComponent },
      {path: 'listDoc', component: ListeDocComponent},
      {path: 'listBlog', component: ListBlogComponent},
-      {path: 'versement', component: VersementComponent}
+      {path: 'versement', component: VersementComponent},
+      {path: 'employe', component: VersementComponent},
+      {path: 'departement', component: ListDepComponent}
 
     ]
   }

@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {Document} from '../../models/Document';
-import {Ville} from '../../models/combo/Ville';
-import {Terrain} from '../../models/Terrain';
-import {TerrainService} from '../../service/terrain.service';
-import {DocumentService} from '../../service/document.service';
-import {VilleService} from '../../service/ville.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';

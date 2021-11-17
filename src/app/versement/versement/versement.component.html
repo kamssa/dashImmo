@@ -1,32 +1,44 @@
-<div>
-  <div fxLayout fxLayoutAlign="center center">
+<div fxLayout fxLayoutAlign="center center">
     <mat-form-field fxFlex="40%">
-      <input matInput type="text" (keyup)="doFilter($event)" placeholder="Nom et Prénom ou numero cni" #input>
+      <input matInput type="text" (keyup)="search(input.value)" placeholder="Nom et Prénom" #input>
     </mat-form-field>
   </div>
+  <div *ngFor="let tr of oClient | async"  class="list-group">
+  <div>
+    <a class="list-group-item  clearfix"
+       (click)="onSelect(tr)">
+       <mat-card>
+      <div class="pull-left">
+        <h2 style="color: brown;">Nom et prénom: </h2><p >{{tr?.nomComplet}}</p>
+        <h2 style="color: brown;"> Numéro CNI: </h2><p>{{tr?.numCni}}</p>
+     </div>
+    </mat-card>
+    </a>
+</div>
 <div>
+<div *ngIf="terrainVendus">
 <p>
   <mat-toolbar>
-   <span>Les terrains du client</span>
+   <span>Les terrains du client: {{terrainVendus.length}} terrain(s)</span>
    <span class="example-spacer"></span>
-   <button mat-stroked-button  (click)="onCreate()">
+   <button mat-stroked-button  (click)="onCreate(tr.id)">
       <mat-icon>add</mat-icon>Versement
     </button>
 </mat-toolbar>
 </p>
 <div class="example-container mat-elevation-z8">
-  <table mat-table [dataSource]="transactions">
+  <table mat-table [dataSource]="terrainVendus">
     <!-- Item Column -->
     <ng-container matColumnDef="numero">
-      <th mat-header-cell *matHeaderCellDef> Numero </th>
-      <td mat-cell *matCellDef="let transaction"> {{transaction.num}} </td>
+      <th mat-header-cell *matHeaderCellDef> Numéro </th>
+      <td mat-cell *matCellDef="let terrainVendu"> {{terrainVendu.numero}} </td>
       <td mat-footer-cell *matFooterCellDef> Total </td>
     </ng-container>
 
     <!-- Cost Column -->
     <ng-container matColumnDef="prix">
       <th mat-header-cell *matHeaderCellDef> Prix </th>
-      <td mat-cell *matCellDef="let transaction"> {{transaction.prix | number}} F CFA </td>
+      <td mat-cell *matCellDef="let terrainVendu"> {{terrainVendu.prix | number}} F CFA </td>
       <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | number}} F CFA</td>
     </ng-container>
 
@@ -37,10 +49,11 @@
 </div>
 <br>
 
-<div fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-raised-button color="primary">Tous les versements</button>
-  <button mat-raised-button color="primary">Solde: {{getTotalCost() | number}} F CFA</button>
-  <button mat-raised-button color="primary">Reste à payer:{{getTotalCost() | number}} F CFA</button>
+<div fxLayout="row" fxLayoutAlign="space-between" *ngIf="versement">
+  <button mat-raised-button color="primary" (click)="onOpen(tr.id)">Tous les versements</button>
+  <button mat-raised-button color="primary">Acompte: {{versement?.solde | number}} F CFA</button>
+  <button mat-raised-button color="primary">Reste à payer:{{versement?.reste | number}} F CFA</button>
+</div>
 </div>
 </div>
 </div>

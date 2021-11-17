@@ -36,10 +36,10 @@ import { AlerteComponent } from './alerte/alerte.component';
   imports: [
     CommonModule,
     FlexLayoutModule,
-    MaterialModule,
     AppRoutingModule,
     RouterModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    MaterialModule
 
   ]
 })

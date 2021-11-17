@@ -2,7 +2,7 @@
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title> Modifier le  terrain</mat-card-title>
+      <mat-card-title> Modifier les coordonnées</mat-card-title>
       <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
     <form [formGroup]="tForm" (ngSubmit)="onSubmit()" novalidate *ngIf="tForm">
@@ -25,7 +25,7 @@
             <div fxLayout="row" fxLayoutAlign="space-between">
               <button mat-raised-button class="boutonEnr" type="submit"> Modifier
               </button>
-              <button mat-raised-button class="boutonAnn" type="button" (click)="coord()">Coord
+              <button mat-raised-button class="boutonAnn" type="button" (click)="coord()">coordonnées
               </button>
             </div>
           </div>

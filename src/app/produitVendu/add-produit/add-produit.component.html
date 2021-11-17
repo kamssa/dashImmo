@@ -1,55 +1,56 @@
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Ajouter un achat</h4>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="achatForm" (ngSubmit)="createAchat(achatForm.value)">
-              <div class="row">
-                <div>
-                  <mat-form-field class="example-full-width" appearance="fill" formGroupName="personne">
-                    <mat-label >Selection une personne</mat-label>
-                    <mat-select formControlName="nomComplet" (selectionChange)="greetPersonne($event)">
-                      <mat-option *ngFor="let v of personnes" [value]="v.id">
-                        {{v.nomComplet}} - {{v.email}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-              <mat-form-field class="example-full-width" appearance="legacy" >
-                <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
-              </mat-form-field>
-              <br>
-              <input  type="checkbox" class="example-margin" [checked]="checked">
-              <br>
-              <input type="checkbox" [checked]="abonneGeo">
-              <br>
-              <mat-form-field class="example-full-width" >
-                <input  matInput  type="text" placeholder="Superficie" formControlName="superficie">
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <input  matInput  type="text" placeholder="Prix" formControlName="prix">
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width" >
-                <input  matInput  type="text" placeholder="Ville" formControlName="nomVille">
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width" appearance="fill" >
-                <input  matInput  type="text" placeholder="Type de document" formControlName="typeDocument">
-              </mat-form-field>
-              <br>
-              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Valider</button>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-        </div>
+<mat-toolbar>
+  <span>{{terrainVenduService.form.controls['id'].value?"Modifier le terrain":"Nouveau terrain"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="terrainVenduService.form" (submit)="onSubmit()">
+
+<mat-stepper [linear]="isLinear" #stepper>
+  <mat-step>
+      <ng-template matStepLabel>INFORMATIONS A SAISIR</ng-template>
+      <input type="hidden" formControlName="id">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label >Selectionner un client</mat-label>
+          <mat-select  (selectionChange)="greetPersonne($event)">
+            <mat-option *ngFor="let v of personnes" [value]="v.id">
+              {{v.nomComplet}} - {{v.email}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="legacy" >
+          <input  matInput  type="text" placeholder="Libelle" formControlName="libelle">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" >
+          <input  matInput  type="text" placeholder="Ville" formControlName="nomVille">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill" >
+          <input  matInput  type="text" placeholder="Type de document" formControlName="typeDocument">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" >
+          <input  matInput  type="text" placeholder="Superficie" formControlName="superficie">
+        </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <input  matInput  type="text" placeholder="Prix" formControlName="prix">
+        </mat-form-field>
+     <div>
+        <button mat-button matStepperNext type="button">Suivant</button>
       </div>
-    </div>
-  </div>
-</div>
+  </mat-step>
+  <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
+    <div>
+
+      </div>
+
+      <section class="example-section">
+        <mat-checkbox class="example-margin" formControlName='paye'>Payé</mat-checkbox>
+      </section>
+      <section class="example-section">
+        <mat-checkbox class="example-margin" formControlName='abonneGeo'>Abonné(e) à la géo</mat-checkbox>
+      </section>
+      <div>
+        <button mat-button matStepperPrevious type="button">Retour</button>
+        <button mat-button type="submit" [disabled]="terrainVenduService.form.invalid">Valider</button>
+      </div>
+  </mat-step>
+</mat-stepper>
+</form>

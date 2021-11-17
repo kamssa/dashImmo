@@ -8,6 +8,7 @@ export class Personne {
                 public prenom?: string,
                 public email?: string,
                 public numCni?: string,
+                public numPassport?: string,
                 public codePays?: string,
                 public telephone?: string,
                 public password?: string,
@@ -15,6 +16,7 @@ export class Personne {
                 public nomComplet?: string,
                 public adresse?: Adresse,
                 public actived?: boolean,
+                public desactiver?: boolean,
                 public type?: string,
                 public roles?: []) {}
 

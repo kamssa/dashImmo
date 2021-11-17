@@ -24,6 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatStepperModule} from '@angular/material/stepper';
 
 const  materialComponents = [
   MatToolbarModule,
@@ -57,8 +58,8 @@ const  materialComponents = [
   MatMenuModule,
   MatProgressSpinnerModule,
   MatSnackBarModule,
-  MatGridListModule
-
+  MatGridListModule,
+  MatStepperModule
 
 ];
 

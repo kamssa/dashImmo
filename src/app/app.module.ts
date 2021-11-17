@@ -16,7 +16,6 @@ import {JwtInterceptor} from './helper/jwt.interceptor';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import {MaterialModule} from './material/material.module';
 
 registerLocaleData(localeFr);
 
@@ -24,7 +23,8 @@ registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
 ],
   imports: [
     BrowserModule,
@@ -35,9 +35,6 @@ registerLocaleData(localeFr);
     FlexLayoutModule,
     ReactiveFormsModule,
     DefaultModule,
-    MaterialModule
-
-
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

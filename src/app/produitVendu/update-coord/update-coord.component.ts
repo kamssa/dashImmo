@@ -1,20 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {TerrainAcheter} from '../../models/TerrainAcheter';
-import {Produit} from '../../models/Produit';
-import {Personne} from '../../models/Personne';
 import {TerrainAcheterService} from '../../service/terrain-acheter.service';
-import {ProduitService} from '../../service/produit.service';
-import {ClientService} from '../../service/client.service';
-import {PersonneService} from '../../service/personne.service';
-import {Location} from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {Terrain} from '../../models/Terrain';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
-import {TerrainService} from '../../service/terrain.service';
-import {Document} from '../../models/Document';
-import {Ville} from '../../models/combo/Ville';
 import {TerrainVendu} from '../../models/TerrainVendu';
 import {TerrainVenduService} from '../../service/terrain-vendu.service';
 
@@ -37,7 +27,7 @@ export class UpdateCoordComponent implements OnInit {
 
   latitude: any;
   longitude: any;
-  constructor( private terrainAcheterService: TerrainAcheterService,
+  constructor(
                private terrainVenduService: TerrainVenduService,
                private  fb: FormBuilder, private  router: Router,
                @Inject(MAT_DIALOG_DATA) public data: TerrainAcheter,

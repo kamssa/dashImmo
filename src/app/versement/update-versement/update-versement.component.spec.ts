@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateClientComponent } from './update-client.component';
+import { UpdateVersementComponent } from './update-versement.component';
 
-describe('UpdateClientComponent', () => {
-  let component: UpdateClientComponent;
-  let fixture: ComponentFixture<UpdateClientComponent>;
+describe('UpdateVersementComponent', () => {
+  let component: UpdateVersementComponent;
+  let fixture: ComponentFixture<UpdateVersementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdateClientComponent ]
+      declarations: [ UpdateVersementComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdateClientComponent);
+    fixture = TestBed.createComponent(UpdateVersementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -30,8 +30,7 @@
       </mat-card-content>
       <button mat-stroked-button  class="btn-block">Se Connecter</button>
       <div *ngIf="loading">
-
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" aria-hidden="true"></i>
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw" aria-hidden="true"></i>
         <span class="visually-hidden">Loading...</span>
       </div>
       <div *ngIf="error" class="alert alert-danger mt-4 mb-0">{{error}}</div>

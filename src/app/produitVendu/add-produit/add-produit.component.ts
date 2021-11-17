@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {TerrainAcheter} from '../../models/TerrainAcheter';
+import { TerrainVendu } from './../../models/TerrainVendu';
+import { Component, OnInit, Inject } from '@angular/core';
 import {Personne} from '../../models/Personne';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TerrainAcheterService} from '../../service/terrain-acheter.service';
-import {ClientService} from '../../service/client.service';
-import {PersonneService} from '../../service/personne.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder} from '@angular/forms';
+import { ClientService } from '../../service/client.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {DetailTerrainService} from '../../service/detail-terrain.service';
-import {DetailTerrain} from '../../models/DetailTerrain';
-import {TerrainVendu} from '../../models/TerrainVendu';
-import {TerrainVenduService} from '../../service/terrain-vendu.service';
+
+import { TerrainVenduService } from '../../service/terrain-vendu.service';
+import { NotificationService } from '../../helper/notification.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-add-produit',
@@ -19,105 +17,120 @@ import {TerrainVenduService} from '../../service/terrain-vendu.service';
   styleUrls: ['./add-produit.component.scss']
 })
 export class AddProduitComponent implements OnInit {
-  achatForm: FormGroup;
-  terrainAcheter: TerrainAcheter;
+  isLinear = false;
+  checked = false;
+  categorie: Document;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  submitted = false;
+  code: any;
+  initialCode : any;
+  error = '';
   terrainVendu: TerrainVendu;
-  detailTerrain: DetailTerrain;
   personnes: Personne[];
   personne: Personne;
-  checked: false;
-  checkedGeo: false;
-  private dialogConfig;
-  abonneGeo = false;
 
   constructor(public fb: FormBuilder,
-              private  terrainVenduService: TerrainVenduService,
-              private detailTerrainService: DetailTerrainService,
+              public  terrainVenduService: TerrainVenduService,
+              private notificationService: NotificationService,
               private clientService: ClientService,
-              private personneService: PersonneService,
-              private location: Location,
-              private dialog: MatDialog,
               public dialogRef: MatDialogRef<AddProduitComponent>,
-              private  router: Router) { }
+              private  router: Router, private _snackBar: MatSnackBar,
+              @Inject(MAT_DIALOG_DATA) public data: Document) { }
+
+
+
 
   ngOnInit(): void {
-
     this.clientService.getAllClient().subscribe(data => {
       console.log(data.body);
       this.personnes = data.body;
-    });
-    this.initForm();
-    this.dialogConfig = {
-      height: '200px',
-      width: '400px',
-      disableClose: true,
-      data: { }
-    };
-  }
-  initForm() {
-    this.achatForm = this.fb.group({
-      libelle: [''],
-      paye: [''],
-      abonneGeo: [''],
-      unite: [''],
-      note: [''],
-      prixParMettreCarre: [''],
-      superficie: [''],
-      surfaceUtilise: [''],
-      description: [''],
-      latitude: [''],
-      longitude: [''],
-      numero: [''],
-      prix: [''],
-      path: [''],
-      nomVille: [''],
-      typeDocument: [''],
-      personne: this.fb.group({
-        nomComplet: '',
-      })
-
+      console.log(this.personnes);
     });
   }
-  public hasError = (controlName: string, errorName: string) => {
-    return this.achatForm.controls[controlName].hasError(errorName);
-  }
-  public createAchat = (createAchatFormValue) => {
 
-    if (this.achatForm.valid) {
-      this.onSubmit(createAchatFormValue);
+
+
+  onSubmit(): void{
+
+    if (!this.terrainVenduService.form.get('id').value){
+        this.terrainVendu = {
+          id: null,
+          version:  null,
+          libelle: this.terrainVenduService.form.value.libelle,
+            paye: this.terrainVenduService.form.value.paye,
+            abonneGeo: this.terrainVenduService.form.value.abonneGeo,
+            superficie: this.terrainVenduService.form.value.superficie,
+            description: this.terrainVenduService.form.value.description,
+            latitude: this.terrainVenduService.form.value.latitude,
+            longitude: this.terrainVenduService.form.value.longitude,
+            prix: this.terrainVenduService.form.value.prix,
+            nomVille: this.terrainVenduService.form.value.nomVille,
+            typeDocument: this.terrainVenduService.form.value.typeDocument,
+            personne: this.personne
+
+
+      };
+     console.log('Voir les valeur du formulaire', this.terrainVendu);
+       this.terrainVenduService.ajoutTerrainVendur(this.terrainVendu).subscribe(res =>{
+        if(res.status === 0){
+          this.notificationService.success('Terrain ajouté avec succès');
+        }
+        });
+     }else{
+         this.terrainVendu = {
+          id:  this.terrainVenduService.form.value.id,
+          version:  this.terrainVenduService.form.value.version,
+          libelle: this.terrainVenduService.form.value.libelle,
+            paye: this.terrainVenduService.form.value.paye,
+            abonneGeo: this.terrainVenduService.form.value.abonneGeo,
+            superficie: this.terrainVenduService.form.value.superficie,
+            description: this.terrainVenduService.form.value.description,
+            latitude: this.terrainVenduService.form.value.latitude,
+            longitude: this.terrainVenduService.form.value.longitude,
+            prix: this.terrainVenduService.form.value.prix,
+            nomVille: this.terrainVenduService.form.value.nomVille,
+            typeDocument: this.terrainVenduService.form.value.typeDocument,
+            personne: this.personne
+
+         };
+         console.log('Voir le client', this.terrainVendu);
+         this.terrainVenduService.modifTerrainVendu(this.terrainVendu).subscribe(result => {
+           console.log(result.status);
+           if(result.status=== 0){
+             this.notificationService.success('Terrain modifié avec succès');
+           }
+         });
+
+      this.terrainVenduService.form.reset();
+      this.terrainVenduService.initializeFormGroup();
+       }
+
+
+      this.onClose();
     }
-  }
-  onSubmit(createAchatFormValue): void{
-    let formValue = this.achatForm.value;
-    let  terrainVendu : TerrainVendu = {
-      id: null,
-      version: null,
-      libelle: formValue.libelle,
-      paye: formValue.paye,
-      abonneGeo: formValue.abonneGeo,
-      superficie: formValue.superficie,
-      description: formValue.description,
-      latitude: formValue.latitude,
-      longitude: formValue.longitude,
-      prix: formValue.prix,
-      nomVille: formValue.nomVille,
-      typeDocument: formValue.typeDocument,
-      personne: this.personne
-    };
-    console.log('terrain acheter', terrainVendu);
-    this.terrainVenduService.ajoutTerrainVendur(terrainVendu).subscribe(data => {
-        console.log('valeu de retour de terrain achete', data.body);
-        this.terrainAcheter = data.body;
-        this.dialogRef.close();
 
-      }, error => {
-        this.location.back();
-
-      }
-    );
-    this.router.navigate(['/terrainVendu']);
+ onClose() {
+    this.terrainVenduService.form.reset();
+    this.terrainVenduService.initializeFormGroup();
+    this.dialogRef.close();
   }
 
+  onClear() {
+    this.terrainVenduService.form.reset();
+    this.terrainVenduService.initializeFormGroup();
+      this.notificationService.success('Champs réinitialisés!');
+  }
+  onCountryChange(event: any) {
+    console.log(event);
+    this.code = event.dialCode;
+    console.log(this.code);
+  }
+
+
+  telInputObject(obj) {
+   this.initialCode = obj.s.dialCode
+    console.log(this.initialCode);
+  }
   greetPersonne(event) {
     console.log(event.value);
     this.clientService.getClientById(event.value).subscribe(data => {
@@ -126,5 +139,4 @@ export class AddProduitComponent implements OnInit {
 
     });
   }
-
 }

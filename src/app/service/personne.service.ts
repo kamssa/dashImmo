@@ -17,4 +17,7 @@ export class PersonneService {
   getAllPersonne(): Observable<Resultat<Personne[]>> {
     return this.http.get<Resultat<Personne[]>>(`${environment.apiUrl}/api/personne`);
   }
+   getEmployeByEmail(email: string): Observable<Resultat<Personne>> {
+    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/getEmployeByEmail/${email}`);
+  }
 }

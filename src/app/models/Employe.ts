@@ -1,7 +1,5 @@
 import { Adresse } from './Adresse';
 import {Personne} from './Personne';
-
-
 export class Employe extends Personne{
   constructor(
     public id?: number,
@@ -11,6 +9,7 @@ export class Employe extends Personne{
     public prenom?: string,
     public email?: string,
     public numCni?: string,
+    public numPassport?: string,
     public codePays?: string,
     public telephone?: string,
     public password?: string,
@@ -18,9 +17,10 @@ export class Employe extends Personne{
     public nomComplet?: string,
     public adresse?: Adresse,
     public actived?: boolean,
+    public desactiver?: boolean,
     public type?: string,
     public roles?: []) {
-    super(id, version, titre, nom, prenom, email, numCni, codePays, telephone, password, fonction, nomComplet, adresse, actived, type, roles);
+    super(id, version, titre, nom, prenom, email, numCni, numPassport, codePays, telephone, password, fonction, nomComplet, adresse, actived,desactiver, type, roles);
   }
 
 
