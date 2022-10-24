@@ -13,6 +13,10 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {Admin} from '../../models/Admin';
 import {Departement} from '../../models/Departement';
+import {EmployeService} from '../../service/employe.service';
+import {Employe} from '../../models/Employe';
+
+
 
 @Component({
   selector: 'app-list-dep',
@@ -33,7 +37,9 @@ displayedColumns: string[] = ['libelle', 'description', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   searchKey: any;
+  employes: Employe[];
   constructor(private departementService: DepartementService,
+              private employeService: EmployeService,
               public dialog: MatDialog,
               private router: Router,
               private  dialogService: DialogConfirmService,
@@ -103,11 +109,22 @@ displayedColumns: string[] = ['libelle', 'description', 'actions'];
   }
 
   onDelete(id){
+    this.employeService.getEmployeByIdDepartement(id)
+    .subscribe(data => {
+      this.employes = data.body;
+      console.log('taille de employe',this.employes.length);
+    if(this.employes.length===0){
     if(confirm('Voulez-vous vraiment supprimer le departement ?')){
       this.departementService.supprimerDepartement(id).subscribe(result => {
         console.log(result);
       });
-      this.notificationService.warn('!Suppression avec succès');
+      this.notificationService.warn('Suppression avec succès');
     }
+    }else{
+       this.notificationService.warn('Supprimer d\'abord les employés');
+    }
+  
+    })
+    
   }
 }

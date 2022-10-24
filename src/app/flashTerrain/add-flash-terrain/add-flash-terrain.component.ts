@@ -1,158 +1,151 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Document} from '../../models/Document';
+import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
+import {Terrain} from '../../models/Terrain';
 import {Ville} from '../../models/combo/Ville';
-import {Maison} from '../../models/Maison';
-import {MaisonService} from '../../service/maison.service';
+import {TerrainService} from '../../service/terrain.service';
+import {NotificationService} from '../../helper/notification.service';
+import {MatDialogRef} from '@angular/material/dialog';
+import {Router} from '@angular/router';
 import {DocumentService} from '../../service/document.service';
 import {VilleService} from '../../service/ville.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {HttpEventType, HttpResponse} from '@angular/common/http';
-import {FlashMaison} from '../../models/FlashMaison';
-import {FlashMaisonService} from '../../service/flash-maison.service';
-
+import {FlashTerrainService} from '../../service/flash-terrain.service';
+import {FlashTerrain} from '../../models/FlashTerrain';
+interface TypeVente {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-add-flash-terrain',
   templateUrl: './add-flash-terrain.component.html',
   styleUrls: ['./add-flash-terrain.component.scss']
 })
 export class AddFlashTerrainComponent implements OnInit {
-  flashMaisonForm: FormGroup;
-  editMode: boolean;
-  flashMaisonId: number;
-  selectedFile: File = null;
-  file: any;
-  progress = 0;
-  selectedFiles: FileList;
-  currentFile: File;
-  fileInfos: Observable<any>;
-  message = '';
-  documents: Document[];
-  document: Document;
-  villes: Ville[];
-  ville: Ville;
-  flashMaison: FlashMaison;
-  selected: string;
-  constructor(private  fb: FormBuilder, private flashMaisonService: FlashMaisonService,
-              private documentService: DocumentService,
-              private villeService: VilleService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<AddFlashTerrainComponent>,
-              private  router: Router, private _snackBar: MatSnackBar) {
 
-  }
-  ngOnInit(): void{
-    this.documentService.getAllDocument().subscribe(data => {
-      console.log(data);
-      this.documents = data.body;
-    });
+  isLinear = false;
+  checked = false;
+  clientForm: FormGroup;
+  categorie: Document;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  submitted = false;
+  code: any;
+  initialCode : any;
+  error = '';
+  checkbox = false;
+  flashTerrain: FlashTerrain;
+  type: TypeVente[] = [
+    {value: 'aucun', viewValue: 'Aucun'},
+    {value: 'venteFlash', viewValue: 'Vente Flash'},
+  ];
+  selectedValue: string;
+  ville: Ville;
+  villes: Ville[];
+  document: Document;
+  documents: Document[];
+  constructor(public fb: FormBuilder,
+              public  flashTerrainService: FlashTerrainService,
+              private notificationService: NotificationService,
+              public dialogRef: MatDialogRef<AddFlashTerrainComponent>,
+              private  router: Router, private _snackBar: MatSnackBar,
+              private documentService: DocumentService,
+              private villeService: VilleService
+  ) { }
+
+  ngOnInit(): void {
     this.villeService.getAllVille().subscribe(data => {
-      console.log(data);
       this.villes = data.body;
     });
-    this.initForm();
+    this.documentService.getAllDocument().subscribe(data => {
+      this.documents = data.body;
+    });
+
   }
-  ngAfterViewInit(): void {
-    if (this.document && this.ville){
-      this.flashMaisonForm = this.fb.group({
-        libelle: ['', Validators.required],
-        description: ['', Validators.required],
-        ville: this.fb.group({
-          id: this.ville.id,
-          version: this.ville.version,
-          libelle: ''
-        })
+
+
+  // convenience getter for easy access to form fields
+
+  onSubmit(): void{
+    console.log('Voir les valeur du formulaire', this.flashTerrainService.form.value);
+    if (!this.flashTerrainService.form.get('id').value){
+      this.flashTerrain = {
+        libelle: this.flashTerrainService.form.value.libelle,
+        surfaceUtile: this.flashTerrainService.form.value.surfaceUtile,
+        surfaceTerrain: this.flashTerrainService.form.value.surfaceTerrain,
+        situationGeographique: this.flashTerrainService.form.value.situationGeographique,
+        flashmaisonType: this.flashTerrainService.form.value.flashmaisonType,
+        description: this.flashTerrainService.form.value.description,
+        numero: this.flashTerrainService.form.value.numero,
+        prix: this.flashTerrainService.form.value.prix,
+        ville: this.ville,
+        document: this.document,
+        type: 'FT'
+      };
+      console.log('Voir le flash terrain', this.flashTerrain);
+      this.flashTerrainService.ajoutFlashTerrain(this.flashTerrain).subscribe(res =>{
+        if(res.status === 0){
+          this.notificationService.success('Terrain ajouté avec succès');
+          this.flashTerrain = res.body;
+        }
       });
+
+    } else {
+      this.flashTerrain = {
+        id:  this.flashTerrainService.form.value.id,
+        version:  this.flashTerrainService.form.value.version,
+        libelle: this.flashTerrainService.form.value.libelle,
+        surfaceUtile: this.flashTerrainService.form.value.surfaceUtile,
+        surfaceTerrain: this.flashTerrainService.form.value.surfaceTerrain,
+        situationGeographique: this.flashTerrainService.form.value.situationGeographique,
+        flashmaisonType: this.flashTerrainService.form.value.flashmaisonType,
+        description: this.flashTerrainService.form.value.description,
+        numero: this.flashTerrainService.form.value.numero,
+        prix: this.flashTerrainService.form.value.prix,
+        ville: this.flashTerrainService.form.value.ville,
+        document: this.flashTerrainService.form.value.document,
+        type: this.flashTerrainService.form.value.type
+      };
+      this.flashTerrainService.modifTerrainFlashTerrain(this.flashTerrain).subscribe(result => {
+        console.log(result.status);
+        if(result.status === 0){
+          this.flashTerrain = result.body;
+          this.notificationService.success('Terrain modifié avec succès');
+        }
+      });
+      this.flashTerrainService.form.reset();
+      this.flashTerrainService.initializeFormGroup();
     }
 
-  }
 
-  initForm(): void{
-
-    this.flashMaisonForm = this.fb.group({
-      libelle: ['', Validators.required],
-      description: ['', Validators.required],
-
-      ville: this.fb.group({
-        id: '',
-        version: '',
-        libelle: ''
-      })
-    });
-
+    // this.onClose();
 
   }
-
-  selectFile(event): void {
-    this.selectedFiles = event.target.files;
+  onClose() {
+    this.flashTerrainService.form.reset();
+    this.flashTerrainService.initializeFormGroup();
+    this.dialogRef.close();
   }
 
-  onFileSelected(event) {
-    this.selectedFile = (event.target.files[0] as File);
-    console.log('Voir le ichier selectionne', this.selectedFile);
+  onClear() {
+    this.flashTerrainService.form.reset();
+    this.flashTerrainService.initializeFormGroup();
+    this.notificationService.success('Champs réinitialisés!');
   }
-  onSubmit(): void {
-    let formValue = this.flashMaisonForm.value;
-    let flashMaison: FlashMaison = {
-      libelle : formValue.libelle,
-      description: formValue.description,
-
-      path: this.selectedFiles.item(0).name,
-
-      ville: {
-        id: this.ville.id,
-        version: this.ville.version,
-        libelle: formValue.ville.libelle
-      },
-      type: 'MA'
-    };
-
-    console.log('Voir les infos de la maison ', flashMaison);
-    this.flashMaisonService.ajoutFlashMaison(flashMaison).subscribe(data => {
-      console.log('maison doc enregistre avec succes', data);
-      this.flashMaisonId = data.body.id;
-      this.flashMaison = data.body;
-      console.log(this.flashMaisonId);
-      if (this.flashMaisonId) {
-        this.progress = 0;
-        this.currentFile = this.selectedFiles.item(0);
-        const formData = new FormData();
-        formData.append('multipartFile', this.currentFile);
-        console.log('formdata', formData);
-        this.flashMaisonService.uploadImage(formData, this.flashMaisonId).subscribe(
-          event => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
-            }
-          },
-          err => {
-            this.progress = 0;
-            this.message = 'Le fichier ne peut etre archivé !';
-            this.currentFile = undefined;
-          });
-        this.selectedFiles = undefined;
-      }
-
-    }, err => {
-      console.log('échec operation');
-    });
-
-  }
-
-  greetVille(event) {
-
-    console.log('Voir le select', event.value);
-    this.villeService.getVilleByLibelle(event.value).subscribe(data => {
+  getVille(event) {
+    console.log(event.value);
+    this.villeService.getVilleById(event.value).subscribe(data => {
       this.ville = data.body;
-      console.log('valeur de retour de ville', this.ville);
-    });
+      console.log('Valeur de retour de ville', this.ville);
 
+    });
+  }
+  getDocument(event) {
+    console.log(event.value);
+    this.documentService.getDocumentById(event.value).subscribe(data => {
+      this.document = data.body;
+      console.log('Valeur de retour de document', this.document);
+
+    });
   }
 
 }

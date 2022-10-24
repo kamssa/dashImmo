@@ -40,7 +40,6 @@ export class AddDepComponent implements OnInit {
   }
 
 onSubmit(): void{
-    if (this.departementService.form.valid) {
     if (!this.departementService.form.get('id').value){
       this.departementService.ajoutDepartement(this.departementService.form.value).subscribe(res =>{
       if(res.status === 0){
@@ -52,14 +51,17 @@ onSubmit(): void{
     else{
       this.departementService.modifDepartement(this.departementService.form.value).subscribe(result => {
         console.log(result.status);
+        if(result.status === 0){
+                this.notificationService.success('Departement modifié avec succès');
+
+        }
       });
       this.departementService.form.reset();
       this.departementService.initializeFormGroup();
-      this.notificationService.success('Document modifié avec succès');
     }
     this.onClose();
 
-  }
+  
   }
 
   onClose() {

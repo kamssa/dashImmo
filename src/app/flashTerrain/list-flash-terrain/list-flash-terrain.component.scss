@@ -1,0 +1,22 @@
+span{
+  font-size: 12px !important;
+}
+img{
+  width: 100px;
+  height: 50px;
+}
+.short-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.short-text:hover {
+  overflow: auto;
+  text-overflow: ellipsis;
+}
+.mat-elevation-z8 {
+  overflow-x: auto;
+}
+.test{
+  height: 400px !important;
+}

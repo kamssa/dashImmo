@@ -13,11 +13,13 @@ import {ListProduitAGeoComponent} from './produitAGeolocaliser/list-produit-ageo
 import {ListeDemandeComponent} from './demande/liste-demande/liste-demande.component';
 import {ListeDemandeLuComponent} from './demande/liste-demande-lu/liste-demande-lu.component';
 import {ListClientComponent} from './client/list-client/list-client.component';
-import {ListFlashMaisonComponent} from './flashMaison/list-flash-maison/list-flash-maison.component';
 import {ListImageAccueilComponent} from './accueil/list-image-accueil/list-image-accueil.component';
 import {ListBlogComponent} from './blogs/list-blog/list-blog.component';
 import { VersementComponent } from './versement/versement/versement.component';
 import { ListDepComponent } from './departement/list-dep/list-dep.component';
+import { ListEmplComponent } from './employe/list-empl/list-empl.component';
+import { ListProspectComponent } from './prospect/list-prospect/list-prospect.component';
+import {ListFlashTerrainComponent} from './flashTerrain/list-flash-terrain/list-flash-terrain.component';
 
 
 const routes: Routes = [
@@ -37,13 +39,16 @@ const routes: Routes = [
      { path: 'demande',   component: ListeDemandeComponent },
      { path: 'demandeArchiver',   component: ListeDemandeLuComponent },
      { path: 'listClient',   component: ListClientComponent },
-     { path: 'listFlasMaison',   component: ListFlashMaisonComponent },
+     { path: 'listFlasMaison',   component: ListeMaisonComponent },
+      { path: 'listFlasTerrain',   component: ListFlashTerrainComponent },
      { path: 'imageAccueil',   component: ListImageAccueilComponent },
      {path: 'listDoc', component: ListeDocComponent},
      {path: 'listBlog', component: ListBlogComponent},
       {path: 'versement', component: VersementComponent},
-      {path: 'employe', component: VersementComponent},
-      {path: 'departement', component: ListDepComponent}
+      {path: 'employe', component: ListEmplComponent},
+      {path: 'departement', component: ListDepComponent},
+      {path: 'prospect', component: ListProspectComponent}
+
 
     ]
   }

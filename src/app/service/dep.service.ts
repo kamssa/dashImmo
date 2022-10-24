@@ -22,12 +22,14 @@ export class DepartementService {
   }
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
+    version: new FormControl(null),
     libelle: new FormControl('',[Validators.required] ),
     description: new FormControl(''),
   });
   initializeFormGroup() {
     this.form.setValue({
       id: null,
+      version: null, 
       libelle: '',
       description: ''
     });

@@ -1,140 +1,152 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpEventType, HttpResponse} from '@angular/common/http';
+import { Component, OnInit, Inject } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Ville} from '../../models/combo/Ville';
-import {Terrain} from '../../models/Terrain';
-import {TerrainService} from '../../service/terrain.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {DocumentService} from '../../service/document.service';
-import {VilleService} from '../../service/ville.service';
-import {Document} from '../../models/Document';
+import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+import { Document } from '../../models/Document';
+import { Terrain } from '../../models/Terrain';
+import { TerrainService } from '../../service/terrain.service';
+import { NotificationService } from '../../helper/notification.service';
+import { DocumentService } from '../../service/document.service';
+import { VilleService } from '../../service/ville.service';
+import { Ville } from '../../models/combo/Ville';
+
+interface TypeVente {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-add-terrains',
   templateUrl: './add-terrains.component.html',
   styleUrls: ['./add-terrains.component.scss']
 })
-export class AddTerrainsComponent implements OnInit {
-  terrainForm: FormGroup;
-  terrainId: number;
-  selectedFile: File = null;
-  file: any;
-  progress = 0;
-  selectedFiles: FileList;
-  currentFile: File;
-  fileInfos: Observable<any>;
-  message = '';
-  documents: Document[];
-  document: Document;
-  villes: Ville[];
-  ville: Ville;
-  terrain: Terrain;
-  selected: string;
-  constructor(private  fb: FormBuilder, private terrainService: TerrainService,
-              private documentService: DocumentService,
-              private villeService: VilleService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<AddTerrainsComponent>,
-              private  router: Router, private _snackBar: MatSnackBar) {
+export class AddTerrainsComponent  implements OnInit{
 
-  }
-  ngOnInit(): void{
-    this.documentService.getAllDocument().subscribe(data => {
-      console.log(data);
-      this.documents = data.body;
-    });
+
+  isLinear = false;
+  checked = false;
+  clientForm: FormGroup;
+  categorie: Document;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  submitted = false;
+  code: any;
+  initialCode : any;
+  error = '';
+  checkbox = false;
+  terrain: Terrain;
+  type: TypeVente[] = [
+    {value: 'aucun', viewValue: 'Aucun'},
+    {value: 'venteFlash', viewValue: 'Vente Flash'},
+  ];
+  selectedValue: string;
+  ville: Ville;
+  villes: Ville[];
+  document: Document;
+  documents: Document[];
+  constructor(public fb: FormBuilder,
+              public  terrainService: TerrainService,
+              private notificationService: NotificationService,
+              public dialogRef: MatDialogRef<AddTerrainsComponent>,
+              private  router: Router, private _snackBar: MatSnackBar,
+              private documentService: DocumentService,
+              private villeService: VilleService
+  ) { }
+
+  ngOnInit(): void {
     this.villeService.getAllVille().subscribe(data => {
-      console.log(data);
       this.villes = data.body;
     });
-    this.initForm();
-  }
-  ngAfterViewInit(): void {
-
-
-  }
-
-  initForm(): void{
-
-    this.terrainForm = this.fb.group({
-      libelle: ['', Validators.required],
-      description: ['', Validators.required],
-      ville: this.fb.group({
-        id: '',
-        version: '',
-        libelle: ''
-      })
+    this.documentService.getAllDocument().subscribe(data => {
+      this.documents = data.body;
     });
+
   }
 
-  selectFile(event): void {
-    this.selectedFiles = event.target.files;
+
+  // convenience getter for easy access to form fields
+
+  onSubmit(): void{
+    console.log('Voir les valeur du formulaire', this.terrainService.form.value);
+    if (!this.terrainService.form.get('id').value){
+      this.terrain = {
+        libelle: this.terrainService.form.value.libelle,
+        note: this.terrainService.form.value.note,
+        prixParMettreCarre: this.terrainService.form.value.prixParMettreCarre,
+        superficie: this.terrainService.form.value.superficie,
+        surfaceUtilise: this.terrainService.form.value.surfaceUtilise,
+        description: this.terrainService.form.value.description,
+        numero: this.terrainService.form.value.numero,
+        prix: this.terrainService.form.value.prix,
+        typeVente: this.selectedValue,
+        ville: this.ville,
+        document: this.document,
+        type: 'TE'
+      };
+      console.log('Voir le terrain', this.terrain);
+      this.terrainService.ajoutTerrain(this.terrain).subscribe(res =>{
+        if(res.status === 0){
+          this.notificationService.success('Terrain ajouté avec succès');
+          this.terrain = res.body;
+        }
+      });
+
+    } else {
+      this.terrain = {
+        id:  this.terrainService.form.value.id,
+        version:  this.terrainService.form.value.version,
+        libelle: this.terrainService.form.value.libelle,
+        note: this.terrainService.form.value.note,
+        prixParMettreCarre: this.terrainService.form.value.prixParMettreCarre,
+        superficie: this.terrainService.form.value.superficie,
+        surfaceUtilise: this.terrainService.form.value.surfaceUtilise,
+        description: this.terrainService.form.value.description,
+        numero: this.terrainService.form.value.numero,
+        prix: this.terrainService.form.value.prix,
+        typeVente: this.terrainService.form.value.typeVente,
+        ville: this.terrainService.form.value.ville,
+        document: this.terrainService.form.value.document,
+        type: this.terrainService.form.value.type,
+      };
+      this.terrainService.modifTerrain(this.terrain).subscribe(result => {
+        console.log(result.status);
+        if(result.status=== 0){
+          this.terrain = result.body;
+          this.notificationService.success('Terrain modifié avec succès');
+        }
+      });
+      this.terrainService.form.reset();
+      this.terrainService.initializeFormGroup();
+    }
+
+
+    // this.onClose();
+
+  }
+  onClose() {
+    this.terrainService.form.reset();
+    this.terrainService.initializeFormGroup();
+    this.dialogRef.close();
   }
 
-  onFileSelected(event) {
-    this.selectedFile = (event.target.files[0] as File);
-    console.log('Voir le ichier selectionne', this.selectedFile);
+  onClear() {
+    this.terrainService.form.reset();
+    this.terrainService.initializeFormGroup();
+    this.notificationService.success('Champs réinitialisés!');
   }
-  onSubmit(): void {
-    let formValue = this.terrainForm.value;
-    let terrain: Terrain = {
-      libelle : formValue.libelle,
-      description: formValue.description,
-      path: this.selectedFiles.item(0).name,
-      ville: {
-        id: this.ville.id,
-        version: this.ville.version,
-        libelle: formValue.ville.libelle
-      },
-      type: 'TE'
-    };
-
-    console.log('Voir les infos du terrain ', terrain);
-    this.terrainService.ajoutTerrain(terrain).subscribe(data => {
-      console.log('terrain doc enregistre avec succes', data);
-      this.terrainId = data.body.id;
-      this.terrain = data.body;
-      console.log(this.terrainId);
-      if (this.terrainId) {
-        this.progress = 0;
-        this.currentFile = this.selectedFiles.item(0);
-        const formData = new FormData();
-        formData.append('multipartFile', this.currentFile);
-        console.log('formdata', formData);
-        this.terrainService.uploadImage(formData, this.terrainId).subscribe(
-          event => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
-            }
-          },
-          err => {
-            this.progress = 0;
-            this.message = 'Le fichier ne peut etre archivé !';
-            this.currentFile = undefined;
-          });
-        this.selectedFiles = undefined;
-      }
-
-    }, err => {
-      console.log('échec operation');
-    });
-    this.router.navigate(['/listTerrains']);
-  }
-
-  greetVille(event) {
-
-    console.log('Voir le select', event.value);
-    this.villeService.getVilleByLibelle(event.value).subscribe(data => {
+  getVille(event) {
+    console.log(event.value);
+    this.villeService.getVilleById(event.value).subscribe(data => {
       this.ville = data.body;
-      console.log('valeur de retour de ville', this.ville);
+      console.log('Valeur de retour de ville', this.ville);
+
     });
-
   }
+  getDocument(event) {
+    console.log(event.value);
+    this.documentService.getDocumentById(event.value).subscribe(data => {
+      this.document = data.body;
+      console.log('Valeur de retour de document', this.document);
 
-}
+    });
+  }}

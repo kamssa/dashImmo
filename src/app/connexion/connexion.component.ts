@@ -34,7 +34,7 @@ export class ConnexionComponent implements OnInit {
                private router: Router,
                private snackBar: MatSnackBar,
                private authService: AuthService, 
-               private employeService: PersonneService) { }
+               private personneService: PersonneService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -66,7 +66,7 @@ get f() { return this.connexionForm.controls; }
       const password = this.connexionForm.get('password').value;
       this.loading = true;
       const  admin = new Personne(null, null, null, null, null, email, null, null, null, null, password, null, null, null, false, false,'AD');
-      this.employeService.getEmployeByEmail(email)
+      this.personneService.getEmployeByEmail(email)
       .subscribe(res => {
       if(res.status === 0){
         if(res.body.type === 'AD' || res.body.type === 'EM'){

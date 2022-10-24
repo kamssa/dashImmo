@@ -110,8 +110,8 @@ export class AddProduitComponent implements OnInit {
     }
 
  onClose() {
-    this.terrainVenduService.form.reset();
-    this.terrainVenduService.initializeFormGroup();
+   // this.terrainVenduService.form.reset();
+    //this.terrainVenduService.initializeFormGroup();
     this.dialogRef.close();
   }
 

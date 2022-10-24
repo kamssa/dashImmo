@@ -1,0 +1,59 @@
+<mat-toolbar>
+  <span>{{prospectService.form.controls['id'].value?"Modifier le prospect":"Nouveau prospect"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="prospectService.form" (submit)="onSubmit()">
+
+<mat-stepper [linear]="isLinear" #stepper>
+  <mat-step>
+      <ng-template matStepLabel>INFORMATIONS SUR LE PROSPECT</ng-template>
+      <input type="hidden" formControlName="id">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput placeholder="nom" formControlName="nom">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput placeholder="prénom" formControlName="prenom">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <input matInput type="text" ng2TelInput [ng2TelInputOptions]="{initialCountry: 'ci'}"
+        (intlTelInputObject)="telInputObject($event)"
+        (countryChange)="onCountryChange($event)"
+        formControlName="telephone" required>
+      </mat-form-field>
+     <div>
+        <button mat-button matStepperNext type="button">Suivant</button>
+      </div>
+  </mat-step>
+  <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Profession</mat-label>
+        <input matInput placeholder="Profession" formControlName="fonction">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Préoccupation</mat-label>
+        <textarea matInput placeholder="Préocupation" formControlName="preocupation"></textarea>
+      </mat-form-field>
+      </div>
+   <section class="example-section">
+        <mat-checkbox class="example-margin" [disabled]="!prospectService.form.controls['id'].value"
+        formControlName='satisfait'>
+        Satisfait(e)
+      </mat-checkbox>
+      </section>
+      <div>
+        <button mat-button matStepperPrevious type="button">Retour</button>
+        <button mat-button type="submit" [disabled]="prospectService.form.invalid">Valider</button>
+      </div>
+  </mat-step>
+</mat-stepper>
+</form>

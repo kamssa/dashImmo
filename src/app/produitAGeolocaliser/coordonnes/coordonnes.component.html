@@ -1,0 +1,28 @@
+ <mat-toolbar>
+    <span>Ajouter des coordonnées</span>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+  </mat-toolbar>
+  <div>
+  <form [formGroup]="tForm" (submit)="onSubmit()" novalidate *ngIf="tForm">
+        <mat-form-field  appearance="fill">
+          <input matInput placeholder="Numéro" formControlName="numero" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field  appearance="fill">
+          <input matInput placeholder="Latitude" formControlName="latitude" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field  appearance="fill">
+          <input matInput placeholder="Longitude" formControlName="longitude" required>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button class="boutonEnr" type="submit"> Modifier
+          </button>
+          <button mat-raised-button class="boutonAnn" type="button" (click)="coord()">coordonnées
+          </button>
+          
+        </div>
+  </form>
+  </div>
+   

@@ -1,54 +1,84 @@
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Ajouter une terrain</h4>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="terrainForm" (ngSubmit)="onSubmit()">
+<div class="test">
+<mat-toolbar>
+  <span>{{terrainService.form.controls['id'].value?"Modifier le terrain":"Nouveau terrain"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="terrainService.form" (submit)="onSubmit()">
+<mat-stepper [linear]="isLinear" #stepper>
+  <mat-step>
+      <ng-template matStepLabel>INFORMATIONS SUR LE TERRAIN</ng-template>
+      <input type="hidden" formControlName="id">
+      <mat-form-field appearance="fill">
+        <mat-label>Libelle</mat-label>
+        <input matInput placeholder="Libelle" formControlName="libelle">
+      </mat-form-field>
 
-              <mat-form-field class="example-full-width" appearance="fill" formGroupName="ville">
-                <mat-label >Selection une ville</mat-label>
-                <mat-select formControlName="libelle" (selectionChange)="greetVille($event)">
-                  <mat-option *ngFor="let v of villes" [value]="v.libelle">
-                    {{v.libelle}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <input matInput type="text" placeholder="Libelle" formControlName="libelle"/>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Description" formControlName="description" type="text"></textarea>
-              </mat-form-field>
-              <br>
-              <div *ngIf="currentFile" class="progress">
-                <div
-                  class="progress-bar progress-bar-info progress-bar-striped"
-                  role="progressbar"
-                  attr.aria-valuenow="{{ progress }}"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  [ngStyle]="{ width: progress + '%' }">
-                  {{ progress }}%
-                </div>
-              </div>
-              <label class="btn btn-default">
-                <input type="file" (change)="selectFile($event)" accept="image/jpg, image/png, image/gif, image/jpeg"/>
-              </label>
-              <button type="submit" class="btn btn-success"  [disabled]="!selectedFiles">
-                Upload
-              </button>
-              <div class="alert alert-light" role="alert">{{ message }}</div>
-            </form>
-          </div>
-        </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Prix</mat-label>
+        <input matInput placeholder="Prix" formControlName="prix">
+      </mat-form-field>
+      <br>
+  <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+      </mat-form-field>
+
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label >Selectionner une ville</mat-label>
+      <mat-select  (selectionChange)="getVille($event)">
+        <mat-option *ngFor="let v of villes" [value]="v.id">
+          {{v.libelle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label >Selectionner un document</mat-label>
+      <mat-select  (selectionChange)="getDocument($event)">
+        <mat-option *ngFor="let d of documents" [value]="d.id">
+          {{d.libelle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+     <div>
+        <button mat-button matStepperNext type="button">Suivant</button>
       </div>
-
-    </div>
-  </div>
+  </mat-step>
+  <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Superficie</mat-label>
+        <input matInput placeholder="Superficie" formControlName="superficie">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Surface utilise</mat-label>
+        <input matInput placeholder="Surface utilise" formControlName="surfaceUtilise">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prix par mettre carré</mat-label>
+        <input matInput placeholder="Prix par mettre carré" formControlName="prixParMettreCarre">
+      </mat-form-field>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Type de vente</mat-label>
+        <mat-select [(ngModel)]="selectedValue" name="t" [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let t of type" [value]="t.value">
+            {{t.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+     <br>
+      <div>
+        <button mat-button matStepperPrevious type="button">Retour</button>
+        <button mat-button type="submit" [disabled]="terrainService.form.invalid">Valider</button>
+      </div>
+      <br>
+      <app-file-upload [id]="terrain?.id"></app-file-upload>
+  </mat-step>
+</mat-stepper>
+</form>
 </div>

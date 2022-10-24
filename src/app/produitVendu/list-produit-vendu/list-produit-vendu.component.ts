@@ -5,8 +5,6 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {TerrainAcheterService} from '../../service/terrain-acheter.service';
-import {UpdateCoordComponent} from '../update-coord/update-coord.component';
 import {TerrainVenduService} from '../../service/terrain-vendu.service';
 import {TerrainVendu} from '../../models/TerrainVendu';
 import { NotificationService } from 'src/app/helper/notification.service';
@@ -151,7 +149,7 @@ export class ListProduitVenduComponent implements OnInit {
 
   }
   }
-  redirectToCord(row) {
+  /* redirectToCord(row) {
     const dialogRef = this.dialog.open(UpdateCoordComponent,{
       data: {
         terrainVendu: row.id
@@ -171,5 +169,5 @@ export class ListProduitVenduComponent implements OnInit {
       }
       });
      });
-  }
+  } */
 }

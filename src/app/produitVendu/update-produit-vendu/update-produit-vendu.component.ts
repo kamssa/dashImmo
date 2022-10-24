@@ -5,8 +5,6 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
 import {VilleService} from '../../service/ville.service';
 import {Router} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {TerrainAcheter} from '../../models/TerrainAcheter';
-import {TerrainAcheterService} from '../../service/terrain-acheter.service';
 import {TerrainVenduService} from '../../service/terrain-vendu.service';
 import {TerrainVendu} from '../../models/TerrainVendu';
 
@@ -16,14 +14,12 @@ import {TerrainVendu} from '../../models/TerrainVendu';
   styleUrls: ['./update-produit-vendu.component.scss']
 })
 export class UpdateProduitVenduComponent implements OnInit {
-  terrainAcheter: TerrainAcheter;
   terrainVendu: TerrainVendu;
   tvForm: FormGroup;
-  terrainAcheters: TerrainAcheter[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor( private terrainAcheterService: TerrainAcheterService,
+  constructor( 
                private terrainVenduService: TerrainVenduService,
                private villeService: VilleService,
                private  fb: FormBuilder, private  router: Router,
@@ -68,7 +64,7 @@ export class UpdateProduitVenduComponent implements OnInit {
       if (data){
         console.log(data.body);
         this.terrainVendu = data.body;
-        this.dialogRef.close(this.terrainAcheter);
+        this.dialogRef.close(this.terrainVendu);
         this.snackBar.open(' succès de la modification!', '', {
           duration: 3000,
           horizontalPosition: this.horizontalPosition,

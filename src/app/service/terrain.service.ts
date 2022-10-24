@@ -3,9 +3,10 @@ import {Observable, of, Subject} from 'rxjs';
 import {Resultat} from '../models/resultat';
 import {Terrain} from '../models/Terrain';
 import {environment} from '../../environments/environment.prod';
-import {HttpClient, HttpEvent, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {MessageService} from './message.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,52 @@ export class TerrainService {
   terrainFiltre$ = this.terrainFiltreSource.asObservable();
   terrainSupprime$ = this.terrainSupprimeSource.asObservable();
 
-  constructor(private  http: HttpClient, private messageService: MessageService) {
+  constructor(private  http: HttpClient, private fb: FormBuilder,
+              private messageService: MessageService) {
+  }
+  form: FormGroup = this.fb.group({
+    id: [''],
+    version: [''],
+      libelle: [''],
+     paye: [''],
+     abonneGeo: [''],
+      unite: [''],
+     note: [''],
+     prixParMettreCarre: [''],
+     superficie: [''],
+     surfaceUtilise: [''],
+     description: [''],
+     latitude: [''],
+     longitude: [''],
+     numero: [''],
+     prix: [''],
+     typeVente: [''],
+     type: ['']
+  });
+  initializeFormGroup() {
+    this.form.setValue({
+      id: null,
+      version: null,
+      libelle: '',
+      paye: '',
+      abonneGeo: '',
+      unite: '',
+      note: '',
+      prixParMettreCarre: '',
+      superficie: '',
+      surfaceUtilise: '',
+      description: '',
+      latitude: '',
+      longitude: '',
+      numero: '',
+      prix: '',
+      typeVente: '',
+      type: '',
+
+    });
+  }
+  populateForm(id) {
+    this.form.patchValue(id);
   }
   get refreshNeeded(){
     return  this._refreshNeeded$;
@@ -42,7 +88,7 @@ export class TerrainService {
     console.log('methode du service qui modifier terrain', terrain);
     return this.http.put<Resultat<Terrain>>(`${environment.apiUrl}/api/terrain`, terrain);
   }
-  getTerrainById(id: Terrain): Observable<Resultat<Terrain>> {
+  getTerrainById(id: number): Observable<Resultat<Terrain>> {
     return this.http.get<Resultat<Terrain>>(`${environment.apiUrl}/api/terrain/${id}`);
   }
   supprimerTerrain(id: number): Observable<any> {
@@ -53,31 +99,8 @@ export class TerrainService {
       }));
 
   }
-  uploadImage(formData, id): Observable<HttpEvent<any>> {
-    const req = new HttpRequest('POST', `${environment.apiUrl}/api/upload/?id=${id}`, formData, {
-      reportProgress: true,
-      responseType: 'json'
-    });
-
-    return this.http.request(req);
-  }
-  modifImage(formData, id): Observable<HttpEvent<any>> {
-    const req = new HttpRequest('POST', `${environment.apiUrl}/api/upload/?id=${id}`, formData, {
-      reportProgress: true,
-      responseType: 'json'
-    });
-
-    return this.http.request(req);
-  }
-  downloadImage( publicId: string): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.append('Accept', 'image/jpg; charset=utf-8');
-    return this.http.get(`${environment.apiUrl}/api/downloadImg/${publicId}`,{
-      headers: headers,
-      observe: 'response',
-      responseType: 'text'
-    });
-
+  getDetailTerrainById(id: number): Observable<Resultat<Terrain>> {
+    return this.http.get<Resultat<Terrain>>(`${environment.apiUrl}/api/terrain/${id}`);
   }
   terrainCreer(res: Resultat<Terrain>) {
     console.log('categorie a ete  creer correctement essaie source');

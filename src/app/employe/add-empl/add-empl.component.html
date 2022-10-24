@@ -1,1 +1,41 @@
-<p>add-empl works!</p>
+<mat-toolbar>
+  <span>{{employeService.form.controls['id'].value?"Modifier l'employe":"Nouveau employe"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<div>
+<form [formGroup]="employeService.form" (submit)="onSubmit()">
+     <input type="hidden" formControlName="id">
+     <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label >Selection un departement </mat-label>
+      <mat-select   (selectionChange)="greetDepartement($event)">
+        <mat-option *ngFor="let d of departements" [value]="d.id">
+          {{d.libelle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput placeholder="nom" formControlName="nom" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput placeholder="prénom" formControlName="prenom" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Téléphone</mat-label>
+        <input matInput placeholder="Teléphone" formControlName="telephone" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput placeholder="Mot de passe" formControlName="password" required>
+      </mat-form-field>
+   <div>
+        <button mat-button type="submit" [disabled]="employeService.form.invalid">Valider</button>
+      </div>
+</form>
+</div>

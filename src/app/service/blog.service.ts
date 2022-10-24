@@ -6,7 +6,6 @@ import {Resultat} from '../models/resultat';
 import {Maison} from '../models/Maison';
 import {environment} from '../../environments/environment.prod';
 import {map} from 'rxjs/operators';
-import {ImageAccueil} from '../models/ImageAccueil';
 import {Blog} from '../models/Blog';
 
 @Injectable({

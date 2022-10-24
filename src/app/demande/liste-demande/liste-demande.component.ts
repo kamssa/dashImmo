@@ -8,9 +8,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
-import {DetailTerrainService} from '../../service/detail-terrain.service';
-import {DetailTerrain} from '../../models/DetailTerrain';
+
 import {DemandeSelectComponent} from '../demande-select/demande-select.component';
+import {Terrain} from '../../models/Terrain';
+import {TerrainService} from '../../service/terrain.service';
 
 @Component({
   selector: 'app-liste-demande',
@@ -22,13 +23,13 @@ export class ListeDemandeComponent implements OnInit {
   dataSource: MatTableDataSource<Demande>;
   demandes: Demande[];
   demande: Demande;
-  detailTerrain: DetailTerrain;
+  terrain: Terrain;
   receptacle: any = [];
   url: any;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private demandeService: DemandeService,
-              private detailTerrainService: DetailTerrainService,
+              private terrainService: TerrainService,
               public dialog: MatDialog, private router: Router,
               private _snackBar: MatSnackBar) {
   }

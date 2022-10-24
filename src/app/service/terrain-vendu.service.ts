@@ -47,8 +47,7 @@ export class TerrainVenduService {
   path: [''],
   nomVille: [''],
   typeDocument: [''],
-  personne:['']
-});
+  });
 initializeFormGroup() {
   this.form.setValue({
     id: null,
@@ -69,7 +68,7 @@ initializeFormGroup() {
     path: '',
     nomVille: '',
     typeDocument: '',
-    personne: ''
+   
   });
 }
 populateForm(id) {
@@ -78,7 +77,10 @@ populateForm(id) {
   getAllTerrainVendu(): Observable<Resultat<TerrainVendu[]>> {
     return this.http.get<Resultat<TerrainVendu[]>>(`${environment.apiUrl}/api/terrainVendu`);
   }
-
+   getAllTerrainVenduAbonneGeo(): Observable<Resultat<TerrainVendu[]>> {
+    return this.http.get<Resultat<TerrainVendu[]>>(`${environment.apiUrl}/api/terrainVenduAbonneGeo`);
+  }
+terrainVenduAbonneGeo
   ajoutTerrainVendur(terrainAcheter: TerrainVendu): Observable<Resultat<TerrainVendu>> {
     console.log('methode du service qui ajoute  terrainAcheter', terrainAcheter);
     return this.http.post<Resultat<TerrainVendu>>

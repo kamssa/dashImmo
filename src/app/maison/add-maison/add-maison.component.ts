@@ -1,146 +1,111 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Ville} from '../../models/combo/Ville';
-import {Maison} from '../../models/Maison';
-import {MaisonService} from '../../service/maison.service';
-import {DocumentService} from '../../service/document.service';
-import {VilleService} from '../../service/ville.service';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Document} from '../../models/Document';
-import {HttpEventType, HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-add-maison',
   templateUrl: './add-maison.component.html',
   styleUrls: ['./add-maison.component.scss']
 })
-export class AddMaisonComponent implements OnInit {
-  maisonForm: FormGroup;
-  editMode: boolean;
-  maisonId: number;
-  selectedFile: File = null;
-  file: any;
-  progress = 0;
-  selectedFiles: FileList;
-  currentFile: File;
-  fileInfos: Observable<any>;
-  message = '';
-  documents: Document[];
-  document: Document;
-  villes: Ville[];
-  ville: Ville;
-  maison: Maison;
-  selected: string;
-  constructor(private  fb: FormBuilder, private maisonService: MaisonService,
-              private documentService: DocumentService,
-              private villeService: VilleService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<AddMaisonComponent>,
-              private  router: Router, private _snackBar: MatSnackBar) {
+export class AddMaisonComponent {
 
-  }
-  ngOnInit(): void{
-    this.villeService.getAllVille().subscribe(data => {
-      console.log(data);
-      this.villes = data.body;
-    });
-    this.initForm();
+ /* isLinear = false;
+  checked = false;
+   clientForm: FormGroup;
+  categorie: Document;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  submitted = false;
+  code: any;
+  initialCode : any;
+  error = '';
+  checkbox = false;
+  prospects: Prospects;
+  constructor(public fb: FormBuilder,
+              public  prospectService: ProspectService,
+              private notificationService: NotificationService,
+              public dialogRef: MatDialogRef<AddProspectComponent>,
+              private  router: Router, private _snackBar: MatSnackBar,
+              @Inject(MAT_DIALOG_DATA) public data: Document) { }
+
+  ngOnInit(): void {
   }
 
-  initForm(): void{
 
-    this.maisonForm = this.fb.group({
-      libelle: ['', Validators.required],
-      description: [''],
-      surfaceUtile: [''],
-      surfaceTerrain: [''],
-      maisonType: [''],
-      prix: [''],
-      ville: this.fb.group({
-        id: '',
-        version: '',
-        libelle: ''
-      })
-    });
+  // convenience getter for easy access to form fields
+
+  onSubmit(): void{
+   // console.log('Voir les valeur du formulaire', this.clientService.form.value);
+
+    if (!this.prospectService.form.get('id').value){
+        this.prospects = {
+        nom: this.prospectService.form.value.nom,
+        prenom: this.prospectService.form.value.prenom,
+        email: this.prospectService.form.value.email,
+        codePays: '225',
+        telephone: this.prospectService.form.value.telephone,
+        fonction: this.prospectService.form.value.fonction,
+         satisfait: false,
+         preocupation: this.prospectService.form.value.preocupation,
+        };
+       this.prospectService.ajoutProspect(this.prospects).subscribe(res =>{
+        if(res.status === 0){
+          this.notificationService.success('Prospect ajouté avec succès');
+        }
+        });
+
+     } else {
+        this.prospects = {
+          id:  this.prospectService.form.value.id,
+          version:  this.prospectService.form.value.version,
+           nom: this.prospectService.form.value.nom,
+           prenom: this.prospectService.form.value.prenom,
+           email: this.prospectService.form.value.email,
+           codePays: this.code,
+           telephone: this.prospectService.form.value.telephone,
+           fonction: this.prospectService.form.value.fonction,
+           satisfait: this.prospectService.form.value.satisfait,
+           preocupation: this.prospectService.form.value.preocupation,
+
+         };
+         this.prospectService.modifProspect(this.prospects).subscribe(result => {
+          console.log(result.status);
+          if(result.status=== 0){
+            this.notificationService.success('Prospect modifié avec succès');
+          }
+        });
+        console.log('Voir le prospect', this.prospects);
+
+        this.prospectService.form.reset();
+        this.prospectService.initializeFormGroup();
+       }
 
 
+      this.onClose();
+
+    }
+
+
+
+  onClose() {
+    this.prospectService.form.reset();
+    this.prospectService.initializeFormGroup();
+    this.dialogRef.close();
   }
 
-  selectFile(event): void {
-    this.selectedFiles = event.target.files;
+  onClear() {
+    this.prospectService.form.reset();
+    this.prospectService.initializeFormGroup();
+      this.notificationService.success('Champs réinitialisés!');
   }
-  onSubmit(): void {
-    let formValue = this.maisonForm.value;
-    let maison: Maison = {
-      libelle : formValue.libelle,
-      description: formValue.description,
-      path: this.selectedFiles.item(0).name,
-      ville: {
-        id: this.ville.id,
-        version: this.ville.version,
-        libelle: formValue.ville.libelle
-      },
-      type: 'MA',
-      surfaceUtile: formValue.surfaceUtile,
-      surfaceTerrain: formValue.surfaceTerrain,
-      maisonType: formValue.maisonType,
-      prix: formValue.prix
-    };
-
-    console.log('Voir les infos de la maison ', maison);
-    this.maisonService.ajoutMaison(maison).subscribe(data => {
-      console.log('maison doc enregistre avec succes', data);
-      this.maisonId = data.body.id;
-      this.maison = data.body;
-      console.log(this.maisonId);
-      if (this.maisonId) {
-        this.progress = 0;
-        this.currentFile = this.selectedFiles.item(0);
-        const formData = new FormData();
-        formData.append('multipartFile', this.currentFile);
-        console.log('formdata', formData);
-        this.maisonService.uploadImage(formData, this.maisonId).subscribe(
-          event => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
-            }
-          },
-          err => {
-            this.progress = 0;
-            this.message = 'Le fichier ne peut etre archivé !';
-            this.currentFile = undefined;
-          });
-        this.selectedFiles = undefined;
-      }
-
-    }, err => {
-      console.log('échec operation');
-    });
-
+  onCountryChange(event: any) {
+    console.log(event);
+    this.code = event.dialCode;
+    console.log(this.code);
   }
 
-  greetVille(event) {
 
-    console.log('Voir le select', event.value);
-    this.villeService.getVilleByLibelle(event.value).subscribe(data => {
-      this.ville = data.body;
-      console.log('valeur de retour de ville', this.ville);
-    });
-
+  telInputObject(obj) {
+   this.initialCode = obj.s.dialCode
+    console.log(this.initialCode);
   }
- /* greetCat(event){
-    console.log(event.value);
-    this.documentService.getDocumentById(event.value).subscribe(data => {
-      console.log('Valeur de retour de doc', this.document);
-      this.document = data.body;
 
-    });
-  }*/
-
+*/
 }

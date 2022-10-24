@@ -45,13 +45,17 @@ export class ListClientComponent implements OnInit {
   }
   ngOnInit(): void {
     this.clientService.getAllClient().subscribe(list => {
-      console.log(list.body);
-      this.array = list.body.map(item => {
-        return {
-          id: item.id,
-          ...item
-        };
-      });
+      if(list.status === 0){
+        this.array = list.body.map(item => {
+          return {
+            id: item.id,
+            ...item
+          };
+        });
+      }else{
+        console.log('aucune donnée');
+      }
+
       this.listData = new MatTableDataSource(this.array);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;

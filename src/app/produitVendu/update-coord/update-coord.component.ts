@@ -1,7 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {TerrainAcheter} from '../../models/TerrainAcheter';
-import {TerrainAcheterService} from '../../service/terrain-acheter.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
@@ -14,11 +12,8 @@ import {TerrainVenduService} from '../../service/terrain-vendu.service';
   styleUrls: ['./update-coord.component.scss']
 })
 export class UpdateCoordComponent implements OnInit {
-  terrainAcheter: TerrainAcheter;
   terrainVendu: TerrainVendu;
-  terrainVendus: TerrainVendu[];
   tForm: FormGroup;
-  terrainAcheters: TerrainAcheter[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   selectedFile: File = null;
@@ -30,7 +25,7 @@ export class UpdateCoordComponent implements OnInit {
   constructor(
                private terrainVenduService: TerrainVenduService,
                private  fb: FormBuilder, private  router: Router,
-               @Inject(MAT_DIALOG_DATA) public data: TerrainAcheter,
+               @Inject(MAT_DIALOG_DATA) public data: TerrainVendu,
                private snackBar: MatSnackBar,
                public dialogRef: MatDialogRef<UpdateCoordComponent>) { }
 
@@ -65,7 +60,7 @@ export class UpdateCoordComponent implements OnInit {
 
   onSubmit() {
     let formValue = this.tForm.value;
-    console.log(this.terrainAcheter);
+    console.log(this.terrainVendu);
     let terrainVendu: TerrainVendu = {
         id: formValue.id,
         version: formValue.version ,
@@ -91,8 +86,8 @@ export class UpdateCoordComponent implements OnInit {
     this.terrainVenduService.modifTerrainVendu(terrainVendu).subscribe(data => {
       if (data){
         console.log(data.body);
-        this.terrainAcheter = data.body;
-        this.dialogRef.close(this.terrainAcheter);
+        this.terrainVendu = data.body;
+        this.dialogRef.close(this.terrainVendu);
         this.snackBar.open(' succès de la modification!', '', {
           duration: 3000,
           horizontalPosition: this.horizontalPosition,

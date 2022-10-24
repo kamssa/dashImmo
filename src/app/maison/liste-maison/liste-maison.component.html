@@ -1,106 +1,64 @@
-<div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-rose">
-            <h4 class="card-title">La liste des maisons</h4>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-              <button mat-button (click)="openDialog()"> Ajouter une maison </button>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field >
-                <input matInput (keyup)="applyFilter($event)"  placeholder="Recherche..." #input>
-              </mat-form-field>
-            </div>
-          </div>
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-            <!-- Position Column -->
-            <ng-container matColumnDef="libelle">
-              <th mat-header-cell *matHeaderCellDef> Libelle </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.libelle}} </td>
-            </ng-container>
-            <ng-container matColumnDef="surfaceUtile">
-              <th mat-header-cell *matHeaderCellDef> Surface utile </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.surfaceUtile}} </td>
-            </ng-container>
-            <ng-container matColumnDef="surfaceTerrain">
-              <th mat-header-cell *matHeaderCellDef> Surface terrain </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.surfaceTerrain}} </td>
-            </ng-container>
-            <ng-container matColumnDef="prix">
-              <th mat-header-cell *matHeaderCellDef> Prix </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.prix}} </td>
-            </ng-container>
-            <ng-container matColumnDef="maisonType">
-              <th mat-header-cell *matHeaderCellDef> Type maison </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.maisonType}} </td>
-            </ng-container>
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef> Description </th>
-              <td mat-cell *matCellDef="let maison"> {{maison.description}} </td>
-            </ng-container>
-            <ng-container matColumnDef="ville">
-              <th mat-header-cell *matHeaderCellDef> Ville </th>
-              <td mat-cell *matCellDef="let maison"> {{maison?.ville?.libelle}} </td>
-            </ng-container>
-            <ng-container matColumnDef="image">
-              <th mat-header-cell *matHeaderCellDef> Image </th>
-              <td mat-cell *matCellDef="let maison"> <img [src]="maison.path"/></td>
-            </ng-container>
-            <ng-container matColumnDef="detail">
-              <th mat-header-cell *matHeaderCellDef>Ajout détail </th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="accent" (click)="redirectToDetail(maison.id)">
-                  <mat-icon class="mat-18">system_update</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="voirDetail">
-              <th mat-header-cell *matHeaderCellDef> Edit détail </th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="accent" (click)="redirectToVoirDetail(maison.id)">
-                  <mat-icon class="mat-18">system_update</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="modifierImage">
-              <th mat-header-cell *matHeaderCellDef> Editer image</th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="accent" (click)="redirectToModifImage(maison.id)">
-                  <mat-icon class="mat-18">system_update</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="update">
-              <th mat-header-cell *matHeaderCellDef> Modifier maison</th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="accent" (click)="redirectToUpdate(maison.id)">
-                  <mat-icon class="mat-18">system_update</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="supprimer">
-              <th mat-header-cell *matHeaderCellDef> Supprimer maison </th>
-              <td mat-cell *matCellDef="let maison">
-                <button mat-icon-button color="warn" (click)="redirectToDelete(maison.id)">
-                  <mat-icon class="mat-18">delete</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
-            </tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 15,20]" showFirstLastButtons></mat-paginator>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--
+<div class="search-div">
+  <button mat-raised-button  (click)="onCreate()">
+    <mat-icon>add</mat-icon>Terrain
+  </button>
+  <span style="color: blue">{{array?.length}} terrain(s)</span>
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input matInput [(ngModel)]="searchKey" placeholder="Recherche..." autocomplete="off" (keyup)="applyFilter()">
+    <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 </div>
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="listData"  matSort>
+    <ng-container matColumnDef="nomComplet">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Nom et Prénom</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.nomComplet}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef  >Email</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="telephone">
+      <mat-header-cell *matHeaderCellDef>Téléphone</mat-header-cell>
+      <mat-cell *matCellDef="let element">+{{element.codePays}}{{element.telephone}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fonction">
+      <mat-header-cell *matHeaderCellDef>Profession</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.fonction}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="preocupation">
+      <mat-header-cell *matHeaderCellDef>Préoccupation</mat-header-cell>
+      <mat-cell *matCellDef="let element" style="text-overflow: ellipsis;" (click)="onModalProspect(element.id)">{{element.preocupation}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="satisfait">
+      <mat-header-cell *matHeaderCellDef>Satisfait</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.satisfait ? 'Oui' : 'Non'}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="onDelete(row)"><mat-icon>delete_outline</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        Patientez svp ! Chargement des données...
+      </mat-footer-cell>
+    </ng-container>
+    <ng-container matColumnDef="noData">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        Aucune donnée enregistrée.
+      </mat-footer-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+-->
